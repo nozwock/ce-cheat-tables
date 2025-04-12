@@ -38,11 +38,11 @@
 ---@param set_all? boolean
 function set_child_values(record_description, value, set_all)
 	local record = AddressList.getMemoryRecordByDescription(record_description)
-    assert(record, string.format("Record with description '%s' is not found.", record_description))
+	assert(record, string.format("Record with description '%s' is not found.", record_description))
 
 	for i = 0, record.Count - 1 do
 		local child = record.Child[i]
-		if not child.IsGroupHeader and (set_all or tonumber(child.Value) &gt; 0) then
+		if not child.IsGroupHeader and (set_all or tonumber(child.Value) > 0) then
 			child.Value = value
 		end
 	end
