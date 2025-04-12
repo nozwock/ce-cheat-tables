@@ -135,9 +135,79 @@ local function generate_gifts_unlocked_group(gifts_count)
 	group_memrec.Collapsed = true
 end
 
+---@param is_script_active boolean
+local function generate_gift_unlock_on_nonzero_quantity_script(is_script_active)
+	local memrec_caption = "Automatically Unlock Gift On Nonzero Quantity"
+	local memrec = AddressList.getMemoryRecordByDescription(memrec_caption)
+	if memrec ~= nil then
+		return
+	end
+
+	memrec = AddressList.createMemoryRecord()
+	memrec.DontSave = true
+	memrec.Description = memrec_caption
+	memrec.VarType = "vtAutoAssembler"
+	memrec.Script = [[{$lua}
+[ENABLE]
+_enable_gift_unlock_on_nonzero_quantity()
+[DISABLE]
+_disable_gift_unlock_on_nonzero_quantity()
+]]
+
+	memrec.appendToEntry(get_gifts_root_group())
+	memrec.Active = is_script_active
+end
+
+---@param group_description string
+---@return table<string, userdata>
+local function get_description_record_mapping_of_group(group_description)
+	local mapping = {}
+
+	local memrec = AddressList.getMemoryRecordByDescription(group_description)
+	if not memrec then
+		return mapping
+	end
+
+	for i = 0, memrec.Count - 1 do
+		local child = memrec.Child[i]
+		mapping[child.Description] = child
+	end
+
+	return mapping
+end
+
+local gift_unlock_record_mapping
+function _enable_gift_unlock_on_nonzero_quantity()
+	local quantity_memrec = AddressList.getMemoryRecordByDescription("Gifts Quantity")
+	assert(quantity_memrec)
+
+	for i = 0, quantity_memrec.Count - 1 do
+		local child = quantity_memrec.Child[i]
+		child.OnValueChangedByUser = function(memrec, prev, curr)
+			local mapped_memrec = gift_unlock_record_mapping[memrec.Description]
+			if curr ~= "0" and mapped_memrec and mapped_memrec.Value == "1" then
+				mapped_memrec.Value = "0" -- Unlocked
+			end
+		end
+	end
+end
+
+function _disable_gift_unlock_on_nonzero_quantity()
+	local quantity_memrec = AddressList.getMemoryRecordByDescription("Gifts Quantity")
+	assert(quantity_memrec)
+
+	for i = 0, quantity_memrec.Count - 1 do
+		local child = quantity_memrec.Child[i]
+		child.OnValueChangedByUser = nil
+	end
+end
+
 local GIFTS_COUNT = 143
 generate_gifts_quantity_group(GIFTS_COUNT)
 generate_gifts_unlocked_group(GIFTS_COUNT)
+generate_gift_unlock_on_nonzero_quantity_script(true)
+
+gift_unlock_record_mapping = get_description_record_mapping_of_group("Gifts Unlocked")
 ]]></LuaScriptEntry>
   </LuaScript>
 </CheatTable>
