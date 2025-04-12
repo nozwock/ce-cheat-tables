@@ -97,7 +97,7 @@ local function get_gifts_root_group()
 	end
 
 	local group_memrec = AddressList.createMemoryRecord()
-	group_memrec.IsAddressGroupHeader = true
+	group_memrec.IsGroupHeader = true
 	group_memrec.DontSave = true
 	group_memrec.Description = group_caption
 	group_memrec.Options = table.concat(header_default_options, ",")
@@ -106,8 +106,9 @@ local function get_gifts_root_group()
 	return group_memrec
 end
 
+---@param base_address string
 ---@param gifts_count integer
-local function generate_gifts_quantity_group(gifts_count)
+local function generate_gifts_quantity_group(base_address, gifts_count)
 	local group_caption = "Gifts Quantity"
 	local _memrec = AddressList.getMemoryRecordByDescription(group_caption)
 	if _memrec ~= nil then
@@ -118,7 +119,7 @@ local function generate_gifts_quantity_group(gifts_count)
 	group_memrec.IsAddressGroupHeader = true
 	group_memrec.DontSave = true
 	group_memrec.Description = group_caption
-	group_memrec.Address = "013E20BC"
+	group_memrec.Address = base_address
 	group_memrec.Options = table.concat(header_default_options, ",")
 	group_memrec.appendToEntry(get_gifts_root_group())
 
@@ -135,8 +136,9 @@ local function generate_gifts_quantity_group(gifts_count)
 	group_memrec.Collapsed = true
 end
 
+---@param base_address string
 ---@param gifts_count integer
-local function generate_gifts_unlocked_group(gifts_count)
+local function generate_gifts_unlocked_group(base_address, gifts_count)
 	local group_caption = "Gifts Unlocked"
 	local _memrec = AddressList.getMemoryRecordByDescription(group_caption)
 	if _memrec ~= nil then
@@ -147,7 +149,7 @@ local function generate_gifts_unlocked_group(gifts_count)
 	group_memrec.IsAddressGroupHeader = true
 	group_memrec.DontSave = true
 	group_memrec.Description = group_caption
-	group_memrec.Address = "13E22BC"
+	group_memrec.Address = base_address
 	group_memrec.Options = table.concat(header_default_options, ",")
 	group_memrec.appendToEntry(get_gifts_root_group())
 
@@ -235,9 +237,10 @@ function _disable_gift_unlock_on_nonzero_quantity()
 end
 
 local GIFTS_COUNT = 143
-generate_gifts_quantity_group(GIFTS_COUNT)
-generate_gifts_unlocked_group(GIFTS_COUNT)
+generate_gifts_quantity_group("013E20BC", GIFTS_COUNT)
+generate_gifts_unlocked_group("013E22BC", GIFTS_COUNT)
 generate_gift_unlock_on_nonzero_quantity_script(true)
+get_gifts_root_group().Collapsed = true
 
 gift_unlock_record_mapping = get_description_record_mapping_of_group("Gifts Unlocked")
 ]]></LuaScriptEntry>
