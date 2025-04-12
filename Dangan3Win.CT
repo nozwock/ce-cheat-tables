@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="utf-8"?>
+<CheatTable CheatEngineTableVersion="45">
+  <CheatEntries>
+    <CheatEntry>
+      <ID>0</ID>
+      <Description>"Mono Coins"</Description>
+      <ShowAsSigned>0</ShowAsSigned>
+      <VariableType>2 Bytes</VariableType>
+      <Address>013E1B86</Address>
+    </CheatEntry>
+    <CheatEntry>
+      <ID>1</ID>
+      <Description>"Skill Fragments"</Description>
+      <VariableType>2 Bytes</VariableType>
+      <Address>013E196E</Address>
+    </CheatEntry>
+    <CheatEntry>
+      <ID>2</ID>
+      <Description>"Table Internal Data"</Description>
+      <Options moAlwaysHideChildren="1" moManualExpandCollapse="1" moDeactivateChildrenAsWell="1" moAllowManualCollapseAndExpand="1"/>
+      <GroupHeader>1</GroupHeader>
+      <CheatEntries>
+        <CheatEntry>
+          <ID>3</ID>
+          <Description>"list/Gift Unlocked State"</Description>
+          <DropDownList ReadOnly="1" DescriptionOnly="1" DisplayValueAsItem="1">0:Unlocked
+1:Locked
+</DropDownList>
+          <GroupHeader>1</GroupHeader>
+        </CheatEntry>
+      </CheatEntries>
+    </CheatEntry>
+  </CheatEntries>
+  <UserdefinedSymbols/>
+  <LuaScript>
+    <LuaScriptEntry><![CDATA[---@param record_description string
+---@param value string
+---@param set_all? boolean
+function set_child_values(record_description, value, set_all)
+	local record = AddressList.getMemoryRecordByDescription(record_description)
+    assert(record, string.format("Record with description '%s' is not found.", record_description))
+
+	for i = 0, record.Count - 1 do
+		local child = record.Child[i]
+		if not child.IsGroupHeader and (set_all or tonumber(child.Value) &gt; 0) then
+			child.Value = value
+		end
+	end
+end
+]]></LuaScriptEntry>
+    <LuaScriptEntry><![CDATA[local header_default_options = {
+	"moActivateChildrenAsWell",
+	"moDeactivateChildrenAsWell",
+	"moRecursiveSetValue",
+	"moAllowManualCollapseAndExpand",
+	"moManualExpandCollapse",
+}
+
+---@return userdata
+local function get_gifts_root_group()
+	local group_caption = "Gifts"
+	local _memrec = AddressList.getMemoryRecordByDescription(group_caption)
+	if _memrec ~= nil then
+		return _memrec
+	end
+
+	local group_memrec = AddressList.createMemoryRecord()
+	group_memrec.IsAddressGroupHeader = true
+	group_memrec.DontSave = true
+	group_memrec.Description = group_caption
+	group_memrec.Options = table.concat(header_default_options, ",")
+	group_memrec.Collapsed = true
+
+	return group_memrec
+end
+
+---@param gifts_count integer
+local function generate_gifts_quantity_group(gifts_count)
+	local group_caption = "Gifts Quantity"
+	local _memrec = AddressList.getMemoryRecordByDescription(group_caption)
+	if _memrec ~= nil then
+		return
+	end
+
+	local group_memrec = AddressList.createMemoryRecord()
+	group_memrec.IsAddressGroupHeader = true
+	group_memrec.DontSave = true
+	group_memrec.Description = group_caption
+	group_memrec.Address = "013E20BC"
+	group_memrec.Options = table.concat(header_default_options, ",")
+	group_memrec.appendToEntry(get_gifts_root_group())
+
+	for i = 0, gifts_count - 1 do
+		local offset = i * 2
+		local gift_memrec = AddressList.createMemoryRecord()
+		gift_memrec.DontSave = true
+		gift_memrec.Description = string.format("NO.%03.0f", i + 1)
+		gift_memrec.VarType = "vtWord"
+		gift_memrec.Address = "+" .. string.format("%X", offset)
+		gift_memrec.appendToEntry(group_memrec)
+	end
+
+	group_memrec.Collapsed = true
+end
+
+---@param gifts_count integer
+local function generate_gifts_unlocked_group(gifts_count)
+	local group_caption = "Gifts Unlocked"
+	local _memrec = AddressList.getMemoryRecordByDescription(group_caption)
+	if _memrec ~= nil then
+		return
+	end
+
+	local group_memrec = AddressList.createMemoryRecord()
+	group_memrec.IsAddressGroupHeader = true
+	group_memrec.DontSave = true
+	group_memrec.Description = group_caption
+	group_memrec.Address = "13E22BC"
+	group_memrec.Options = table.concat(header_default_options, ",")
+	group_memrec.appendToEntry(get_gifts_root_group())
+
+	for i = 0, gifts_count - 1 do
+		local gift_memrec = AddressList.createMemoryRecord()
+		gift_memrec.DontSave = true
+		gift_memrec.Description = string.format("NO.%03.0f", i + 1)
+		gift_memrec.VarType = "vtBinary"
+		gift_memrec.Binary.Startbit = i % 8
+		gift_memrec.Binary.Size = 1
+		gift_memrec.Address = "+" .. string.format("%X", i // 8)
+		gift_memrec.DropDownLinked = true
+		gift_memrec.DropDownLinkedMemRec = "list/Gift Unlocked State"
+		gift_memrec.appendToEntry(group_memrec)
+	end
+
+	group_memrec.Collapsed = true
+end
+
+local GIFTS_COUNT = 143
+generate_gifts_quantity_group(GIFTS_COUNT)
+generate_gifts_unlocked_group(GIFTS_COUNT)
+]]></LuaScriptEntry>
+  </LuaScript>
+</CheatTable>
