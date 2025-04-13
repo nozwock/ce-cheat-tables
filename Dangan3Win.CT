@@ -248,39 +248,6 @@ local function generate_gifts_quantity_group(base_address, gifts_count)
 	group_memrec.Collapsed = true
 end
 
----@param base_address string
----@param gifts_count integer
-local function generate_gifts_unlocked_group(base_address, gifts_count)
-	local group_caption = "Gifts Unlocked"
-	local _memrec = AddressList.getMemoryRecordByDescription(group_caption)
-	if _memrec ~= nil then
-		return
-	end
-
-	local group_memrec = AddressList.createMemoryRecord()
-	group_memrec.IsAddressGroupHeader = true
-	group_memrec.DontSave = true
-	group_memrec.Description = group_caption
-	group_memrec.Address = base_address
-	group_memrec.Options = table.concat(header_default_options, ",")
-	group_memrec.appendToEntry(get_or_create_header_group("Gifts"))
-
-	for i = 0, gifts_count - 1 do
-		local gift_memrec = AddressList.createMemoryRecord()
-		gift_memrec.DontSave = true
-		gift_memrec.Description = string.format("NO.%03.0f", i + 1)
-		gift_memrec.VarType = "vtBinary"
-		gift_memrec.Binary.Startbit = i % 8
-		gift_memrec.Binary.Size = 1
-		gift_memrec.Address = "+" .. string.format("%X", i // 8)
-		gift_memrec.DropDownLinked = true
-		gift_memrec.DropDownLinkedMemRec = "list/Gift Unlocked State"
-		gift_memrec.appendToEntry(group_memrec)
-	end
-
-	group_memrec.Collapsed = true
-end
-
 ---@param is_script_active boolean
 local function generate_gift_unlock_on_nonzero_quantity_script(is_script_active)
 	local memrec_caption = "Automatically Unlock Gift On Nonzero Quantity"
@@ -395,6 +362,7 @@ local function generate_friendship_fragments_group(base_address, group_caption)
 	group_memrec.Collapsed = true
 end
 
+--- `i` starts from 1.
 ---@param base_address string
 ---@param group_caption string
 ---@param bit_length integer
@@ -418,7 +386,9 @@ local function generate_bitmask_list_group(base_address, group_caption, bit_leng
 		local gift_memrec = AddressList.createMemoryRecord()
 		gift_memrec.DontSave = true
 		if get_item_caption then
-			gift_memrec.Description = get_item_caption(i)
+			gift_memrec.Description = get_item_caption(i + 1)
+		else
+			gift_memrec.Description = string.format("%02.0f", i + 1)
 		end
 		gift_memrec.VarType = "vtBinary"
 		gift_memrec.Binary.Startbit = i % 8
@@ -439,7 +409,9 @@ end
 local GIFTS_COUNT = 143
 local gifts_root_group = get_or_create_header_group("Gifts")
 generate_gifts_quantity_group("013E20BC", GIFTS_COUNT)
-generate_gifts_unlocked_group("013E22BC", GIFTS_COUNT)
+generate_bitmask_list_group("013E22BC", "Gifts Unlocked", GIFTS_COUNT, "list/Gift Unlocked State", function(i)
+	return string.format("NO.%03.0f", i)
+end).appendToEntry(gifts_root_group)
 generate_gift_unlock_on_nonzero_quantity_script(true)
 gifts_root_group.Collapsed = true
 
@@ -449,14 +421,25 @@ generate_friendship_fragments_group("013E2324", "Friendship Fragments from Kaede
 generate_friendship_fragments_group("013E2364", "Friendship Fragments from Shuichi POV")
 get_or_create_header_group("Friendship Fragments").Collapsed = true
 
+local HANDBOOK_THEME_COUNT = 38
 local handbook_theme_root_group = get_or_create_header_group("Handbook Theme")
-generate_bitmask_list_group("013E22FC", "Handbook Theme Unlocked", 38, "list/1 Unlocked 0 Locked", function(i)
-	return string.format("%02.0f", i)
-end).appendToEntry(handbook_theme_root_group)
-generate_bitmask_list_group("013E230C", "Handbook Theme Discovered", 38, nil, function(i)
-	return string.format("%02.0f", i)
-end).appendToEntry(handbook_theme_root_group)
+generate_bitmask_list_group("013E22FC", "Handbook Theme Unlocked", HANDBOOK_THEME_COUNT, "list/1 Unlocked 0 Locked").appendToEntry(
+	handbook_theme_root_group
+)
+generate_bitmask_list_group("013E230C", "Handbook Theme Discovered", HANDBOOK_THEME_COUNT).appendToEntry(
+	handbook_theme_root_group
+)
 handbook_theme_root_group.Collapsed = true
+
+local HIDDEN_MONOKUMA_COUNT = 30
+local hidden_monokumas_root_group = get_or_create_header_group("Hidden Monokumas")
+generate_bitmask_list_group("013E240C", "Hidden Monokumas Unlocked", HIDDEN_MONOKUMA_COUNT).appendToEntry(
+	hidden_monokumas_root_group
+)
+generate_bitmask_list_group("01574F14", "Hidden Monokumas Played With", HIDDEN_MONOKUMA_COUNT).appendToEntry(
+	hidden_monokumas_root_group
+)
+hidden_monokumas_root_group.Collapsed = true
 ]]></LuaScriptEntry>
   </LuaScript>
 </CheatTable>
