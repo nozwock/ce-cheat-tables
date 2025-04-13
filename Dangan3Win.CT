@@ -105,9 +105,9 @@ end
 	"moManualExpandCollapse",
 }
 
+---@param group_caption string
 ---@return userdata
-local function get_gifts_root_group()
-	local group_caption = "Gifts"
+local function get_or_create_header_group(group_caption)
 	local _memrec = AddressList.getMemoryRecordByDescription(group_caption)
 	if _memrec ~= nil then
 		return _memrec
@@ -138,7 +138,7 @@ local function generate_gifts_quantity_group(base_address, gifts_count)
 	group_memrec.Description = group_caption
 	group_memrec.Address = base_address
 	group_memrec.Options = table.concat(header_default_options, ",")
-	group_memrec.appendToEntry(get_gifts_root_group())
+	group_memrec.appendToEntry(get_or_create_header_group("Gifts"))
 
 	for i = 0, gifts_count - 1 do
 		local offset = i * 2
@@ -168,7 +168,7 @@ local function generate_gifts_unlocked_group(base_address, gifts_count)
 	group_memrec.Description = group_caption
 	group_memrec.Address = base_address
 	group_memrec.Options = table.concat(header_default_options, ",")
-	group_memrec.appendToEntry(get_gifts_root_group())
+	group_memrec.appendToEntry(get_or_create_header_group("Gifts"))
 
 	for i = 0, gifts_count - 1 do
 		local gift_memrec = AddressList.createMemoryRecord()
@@ -205,7 +205,7 @@ _enable_gift_unlock_on_nonzero_quantity()
 _disable_gift_unlock_on_nonzero_quantity()
 ]]
 
-	memrec.appendToEntry(get_gifts_root_group())
+	memrec.appendToEntry(get_or_create_header_group("Gifts"))
 	memrec.Active = is_script_active
 end
 
@@ -253,13 +253,64 @@ function _disable_gift_unlock_on_nonzero_quantity()
 	end
 end
 
+---@param base_address string
+---@param group_caption string
+function generate_friendship_fragments_group(base_address, group_caption)
+	local _memrec = AddressList.getMemoryRecordByDescription(group_caption)
+	if _memrec ~= nil then
+		return
+	end
+
+	local friends_list = {
+		"Shuichi Saihara",
+		"Kaito Momota",
+		"Ryoma Hoshi",
+		"Rantaro Amami",
+		"Gonta Gokuhara",
+		"Kokichi Oma",
+		"Korekiyo Shinguji",
+		"K1-B0",
+		"Kirumi Tojo",
+		"Himiko Yumeno",
+		"Maki Harukawa",
+		"Tenko Chabashira",
+		"Tsumugi Shirogane",
+		"Angie Yonaga",
+		"Miu Iruma",
+	}
+
+	local group_memrec = AddressList.createMemoryRecord()
+	group_memrec.IsAddressGroupHeader = true
+	group_memrec.DontSave = true
+	group_memrec.Description = group_caption
+	group_memrec.Address = base_address
+	group_memrec.Options = table.concat(header_default_options, ",")
+	group_memrec.appendToEntry(get_or_create_header_group("Friendship Fragments"))
+
+	for i, name in ipairs(friends_list) do
+		local offset = (i - 1) * 2
+		local friend_memrec = AddressList.createMemoryRecord()
+		friend_memrec.DontSave = true
+		friend_memrec.Description = name
+		friend_memrec.VarType = "vtWord"
+		friend_memrec.Address = "+" .. string.format("%X", offset)
+		friend_memrec.appendToEntry(group_memrec)
+	end
+
+	group_memrec.Collapsed = true
+end
+
 local GIFTS_COUNT = 143
 generate_gifts_quantity_group("013E20BC", GIFTS_COUNT)
 generate_gifts_unlocked_group("013E22BC", GIFTS_COUNT)
 generate_gift_unlock_on_nonzero_quantity_script(true)
-get_gifts_root_group().Collapsed = true
+get_or_create_header_group("Gifts").Collapsed = true
 
 gift_unlock_record_mapping = get_description_record_mapping_of_group("Gifts Unlocked")
+
+generate_friendship_fragments_group("013E2324", "Friendship Fragments from Kaede POV")
+generate_friendship_fragments_group("013E2364", "Friendship Fragments from Shuichi POV")
+get_or_create_header_group("Friendship Fragments").Collapsed = true
 ]]></LuaScriptEntry>
   </LuaScript>
 </CheatTable>
