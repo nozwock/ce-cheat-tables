@@ -68,17 +68,34 @@
     <LuaScriptEntry><![CDATA[---@param record_description string
 ---@param value string
 ---@param set_all? boolean
-function set_child_values(record_description, value, set_all)
+---@param custom_check? fun(memrec: userdata): boolean
+function set_child_values(record_description, value, set_all, custom_check)
 	local record = AddressList.getMemoryRecordByDescription(record_description)
 	assert(record, string.format("Record with description '%s' is not found.", record_description))
 
 	for i = 0, record.Count - 1 do
 		local child = record.Child[i]
-		if not child.IsGroupHeader and (set_all or tonumber(child.Value) > 0) then
+
+		local custom_check_result = true
+		if custom_check then
+			custom_check_result = custom_check(child)
+		end
+
+		if not child.IsGroupHeader and (set_all or tonumber(child.Value) > 0) and custom_check_result then
 			child.Value = value
 		end
 	end
 end
+
+---@param value string
+function set_gifts_quantity(value)
+	set_child_values("Gifts Quantity", value, false, function(memrec)
+		local id, _ = string.gsub(memrec.Description, "NO%.", "")
+		return tonumber(id) < 114
+	end)
+end
+
+-- set_gifts_quantity("25")
 ]]></LuaScriptEntry>
     <LuaScriptEntry><![CDATA[local header_default_options = {
 	"moActivateChildrenAsWell",
