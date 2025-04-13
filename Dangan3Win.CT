@@ -3,7 +3,7 @@
   <CheatEntries>
     <CheatEntry>
       <ID>0</ID>
-      <Description>"Mono Coins"</Description>
+      <Description>"Monocoins"</Description>
       <ShowAsSigned>0</ShowAsSigned>
       <VariableType>2 Bytes</VariableType>
       <Address>013E1B86</Address>
@@ -135,7 +135,7 @@
     </CheatEntry>
     <CheatEntry>
       <ID>100</ID>
-      <Description>"Table Internal Data"</Description>
+      <Description>"[Table Internal Data]"</Description>
       <Options moAlwaysHideChildren="1" moManualExpandCollapse="1" moDeactivateChildrenAsWell="1" moAllowManualCollapseAndExpand="1"/>
       <GroupHeader>1</GroupHeader>
       <CheatEntries>
