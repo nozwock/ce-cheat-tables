@@ -218,13 +218,27 @@ local function get_or_create_header_group(group_caption)
 	return group_memrec
 end
 
+---@alias VarType "vtByte" | "vtWord" | "vtDword" | "vtQword" | "vtSingle" | "vtDouble" | "vtString" | "vtByteArray" | "vtGrouped" | "vtBinary" | "vtAll" | "vtAutoAssembler"
+
+--- `i` starts from 1.
 ---@param base_address string
----@param gifts_count integer
-local function generate_gifts_quantity_group(base_address, gifts_count)
-	local group_caption = "Gifts Quantity"
+---@param group_caption string
+---@param item_count integer
+---@param vartype VarType
+---@param vartype_size integer
+---@param get_item_caption? fun(i: integer): string
+---@return userdata
+local function generate_homogeneous_list_group(
+	base_address,
+	group_caption,
+	item_count,
+	vartype,
+	vartype_size,
+	get_item_caption
+)
 	local _memrec = AddressList.getMemoryRecordByDescription(group_caption)
 	if _memrec ~= nil then
-		return
+		return _memrec
 	end
 
 	local group_memrec = AddressList.createMemoryRecord()
@@ -233,19 +247,68 @@ local function generate_gifts_quantity_group(base_address, gifts_count)
 	group_memrec.Description = group_caption
 	group_memrec.Address = base_address
 	group_memrec.Options = table.concat(header_default_options, ",")
-	group_memrec.appendToEntry(get_or_create_header_group("Gifts"))
 
-	for i = 0, gifts_count - 1 do
-		local offset = i * 2
+	for i = 0, item_count - 1 do
+		local offset = i * vartype_size
 		local gift_memrec = AddressList.createMemoryRecord()
 		gift_memrec.DontSave = true
-		gift_memrec.Description = string.format("NO.%03.0f", i + 1)
-		gift_memrec.VarType = "vtWord"
+		if get_item_caption then
+			gift_memrec.Description = get_item_caption(i + 1)
+		else
+			gift_memrec.Description = string.format("%02.0f", i + 1)
+		end
+		gift_memrec.VarType = vartype
 		gift_memrec.Address = "+" .. string.format("%X", offset)
 		gift_memrec.appendToEntry(group_memrec)
 	end
 
 	group_memrec.Collapsed = true
+
+	return group_memrec
+end
+
+--- `i` starts from 1.
+---@param base_address string
+---@param group_caption string
+---@param bit_length integer
+---@param dropdown_link? string
+---@param get_item_caption? fun(i: integer): string
+---@return userdata
+local function generate_bitmask_list_group(base_address, group_caption, bit_length, dropdown_link, get_item_caption)
+	local _memrec = AddressList.getMemoryRecordByDescription(group_caption)
+	if _memrec ~= nil then
+		return _memrec
+	end
+
+	local group_memrec = AddressList.createMemoryRecord()
+	group_memrec.IsAddressGroupHeader = true
+	group_memrec.DontSave = true
+	group_memrec.Description = group_caption
+	group_memrec.Address = base_address
+	group_memrec.Options = table.concat(header_default_options, ",")
+
+	for i = 0, bit_length - 1 do
+		local gift_memrec = AddressList.createMemoryRecord()
+		gift_memrec.DontSave = true
+		if get_item_caption then
+			gift_memrec.Description = get_item_caption(i + 1)
+		else
+			gift_memrec.Description = string.format("%02.0f", i + 1)
+		end
+		gift_memrec.VarType = "vtBinary"
+		gift_memrec.Binary.Startbit = i % 8
+		gift_memrec.Binary.Size = 1
+		gift_memrec.Address = "+" .. string.format("%X", i // 8)
+		if dropdown_link then
+			gift_memrec.DropDownLinked = true
+			gift_memrec.DropDownLinkedMemRec = dropdown_link
+		end
+		gift_memrec.appendToEntry(group_memrec)
+	end
+
+	group_memrec.Collapsed = true
+
+	return group_memrec
 end
 
 ---@param is_script_active boolean
@@ -315,100 +378,11 @@ function _disable_gift_unlock_on_nonzero_quantity()
 	end
 end
 
----@param base_address string
----@param group_caption string
-local function generate_friendship_fragments_group(base_address, group_caption)
-	local _memrec = AddressList.getMemoryRecordByDescription(group_caption)
-	if _memrec ~= nil then
-		return
-	end
-
-	local friends_list = {
-		"Shuichi Saihara",
-		"Kaito Momota",
-		"Ryoma Hoshi",
-		"Rantaro Amami",
-		"Gonta Gokuhara",
-		"Kokichi Oma",
-		"Korekiyo Shinguji",
-		"K1-B0",
-		"Kirumi Tojo",
-		"Himiko Yumeno",
-		"Maki Harukawa",
-		"Tenko Chabashira",
-		"Tsumugi Shirogane",
-		"Angie Yonaga",
-		"Miu Iruma",
-	}
-
-	local group_memrec = AddressList.createMemoryRecord()
-	group_memrec.IsAddressGroupHeader = true
-	group_memrec.DontSave = true
-	group_memrec.Description = group_caption
-	group_memrec.Address = base_address
-	group_memrec.Options = table.concat(header_default_options, ",")
-	group_memrec.appendToEntry(get_or_create_header_group("Friendship Fragments"))
-
-	for i, name in ipairs(friends_list) do
-		local offset = (i - 1) * 2
-		local friend_memrec = AddressList.createMemoryRecord()
-		friend_memrec.DontSave = true
-		friend_memrec.Description = name
-		friend_memrec.VarType = "vtWord"
-		friend_memrec.Address = "+" .. string.format("%X", offset)
-		friend_memrec.appendToEntry(group_memrec)
-	end
-
-	group_memrec.Collapsed = true
-end
-
---- `i` starts from 1.
----@param base_address string
----@param group_caption string
----@param bit_length integer
----@param dropdown_link? string
----@param get_item_caption? fun(i: integer): string
----@return userdata
-local function generate_bitmask_list_group(base_address, group_caption, bit_length, dropdown_link, get_item_caption)
-	local _memrec = AddressList.getMemoryRecordByDescription(group_caption)
-	if _memrec ~= nil then
-		return _memrec
-	end
-
-	local group_memrec = AddressList.createMemoryRecord()
-	group_memrec.IsAddressGroupHeader = true
-	group_memrec.DontSave = true
-	group_memrec.Description = group_caption
-	group_memrec.Address = base_address
-	group_memrec.Options = table.concat(header_default_options, ",")
-
-	for i = 0, bit_length - 1 do
-		local gift_memrec = AddressList.createMemoryRecord()
-		gift_memrec.DontSave = true
-		if get_item_caption then
-			gift_memrec.Description = get_item_caption(i + 1)
-		else
-			gift_memrec.Description = string.format("%02.0f", i + 1)
-		end
-		gift_memrec.VarType = "vtBinary"
-		gift_memrec.Binary.Startbit = i % 8
-		gift_memrec.Binary.Size = 1
-		gift_memrec.Address = "+" .. string.format("%X", i // 8)
-		if dropdown_link then
-			gift_memrec.DropDownLinked = true
-			gift_memrec.DropDownLinkedMemRec = dropdown_link
-		end
-		gift_memrec.appendToEntry(group_memrec)
-	end
-
-	group_memrec.Collapsed = true
-
-	return group_memrec
-end
-
 local GIFTS_COUNT = 143
 local gifts_root_group = get_or_create_header_group("Gifts")
-generate_gifts_quantity_group("013E20BC", GIFTS_COUNT)
+generate_homogeneous_list_group("013E20BC", "Gifts Quantity", GIFTS_COUNT, "vtWord", 2, function(i)
+	return string.format("NO.%03.0f", i)
+end).appendToEntry(gifts_root_group)
 generate_bitmask_list_group("013E22BC", "Gifts Unlocked", GIFTS_COUNT, "list/Gift Unlocked State", function(i)
 	return string.format("NO.%03.0f", i)
 end).appendToEntry(gifts_root_group)
@@ -417,9 +391,45 @@ gifts_root_group.Collapsed = true
 
 gift_unlock_record_mapping = get_description_record_mapping_of_group("Gifts Unlocked")
 
-generate_friendship_fragments_group("013E2324", "Friendship Fragments from Kaede POV")
-generate_friendship_fragments_group("013E2364", "Friendship Fragments from Shuichi POV")
-get_or_create_header_group("Friendship Fragments").Collapsed = true
+local friends_list = {
+	"Shuichi Saihara",
+	"Kaito Momota",
+	"Ryoma Hoshi",
+	"Rantaro Amami",
+	"Gonta Gokuhara",
+	"Kokichi Oma",
+	"Korekiyo Shinguji",
+	"K1-B0",
+	"Kirumi Tojo",
+	"Himiko Yumeno",
+	"Maki Harukawa",
+	"Tenko Chabashira",
+	"Tsumugi Shirogane",
+	"Angie Yonaga",
+	"Miu Iruma",
+}
+local friendship_fragments_root_group = get_or_create_header_group("Friendship Fragments")
+generate_homogeneous_list_group(
+	"013E2324",
+	"Friendship Fragments from Kaede POV",
+	#friends_list,
+	"vtWord",
+	2,
+	function(i)
+		return friends_list[i]
+	end
+).appendToEntry(friendship_fragments_root_group)
+generate_homogeneous_list_group(
+	"013E2364",
+	"Friendship Fragments from Shuichi POV",
+	#friends_list,
+	"vtWord",
+	2,
+	function(i)
+		return friends_list[i]
+	end
+).appendToEntry(friendship_fragments_root_group)
+friendship_fragments_root_group.Collapsed = true
 
 local HANDBOOK_THEME_COUNT = 38
 local handbook_theme_root_group = get_or_create_header_group("Handbook Theme")
