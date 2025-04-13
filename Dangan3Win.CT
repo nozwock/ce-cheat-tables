@@ -47,16 +47,24 @@
       </CheatEntries>
     </CheatEntry>
     <CheatEntry>
-      <ID>2</ID>
+      <ID>100</ID>
       <Description>"Table Internal Data"</Description>
       <Options moAlwaysHideChildren="1" moManualExpandCollapse="1" moDeactivateChildrenAsWell="1" moAllowManualCollapseAndExpand="1"/>
       <GroupHeader>1</GroupHeader>
       <CheatEntries>
         <CheatEntry>
-          <ID>3</ID>
+          <ID>101</ID>
           <Description>"list/Gift Unlocked State"</Description>
           <DropDownList ReadOnly="1" DescriptionOnly="1" DisplayValueAsItem="1">0:Unlocked
 1:Locked
+</DropDownList>
+          <GroupHeader>1</GroupHeader>
+        </CheatEntry>
+        <CheatEntry>
+          <ID>102</ID>
+          <Description>"list/1 Unlocked 0 Locked"</Description>
+          <DropDownList ReadOnly="1" DescriptionOnly="1" DisplayValueAsItem="1">1:Unlocked
+0:Locked
 </DropDownList>
           <GroupHeader>1</GroupHeader>
         </CheatEntry>
@@ -255,7 +263,7 @@ end
 
 ---@param base_address string
 ---@param group_caption string
-function generate_friendship_fragments_group(base_address, group_caption)
+local function generate_friendship_fragments_group(base_address, group_caption)
 	local _memrec = AddressList.getMemoryRecordByDescription(group_caption)
 	if _memrec ~= nil then
 		return
@@ -300,17 +308,68 @@ function generate_friendship_fragments_group(base_address, group_caption)
 	group_memrec.Collapsed = true
 end
 
+---@param base_address string
+---@param group_caption string
+---@param bit_length integer
+---@param dropdown_link? string
+---@param get_item_caption? fun(i: integer): string
+---@return userdata
+local function generate_bitmask_list_group(base_address, group_caption, bit_length, dropdown_link, get_item_caption)
+	local _memrec = AddressList.getMemoryRecordByDescription(group_caption)
+	if _memrec ~= nil then
+		return _memrec
+	end
+
+	local group_memrec = AddressList.createMemoryRecord()
+	group_memrec.IsAddressGroupHeader = true
+	group_memrec.DontSave = true
+	group_memrec.Description = group_caption
+	group_memrec.Address = base_address
+	group_memrec.Options = table.concat(header_default_options, ",")
+
+	for i = 0, bit_length - 1 do
+		local gift_memrec = AddressList.createMemoryRecord()
+		gift_memrec.DontSave = true
+		if get_item_caption then
+			gift_memrec.Description = get_item_caption(i)
+		end
+		gift_memrec.VarType = "vtBinary"
+		gift_memrec.Binary.Startbit = i % 8
+		gift_memrec.Binary.Size = 1
+		gift_memrec.Address = "+" .. string.format("%X", i // 8)
+		if dropdown_link then
+			gift_memrec.DropDownLinked = true
+			gift_memrec.DropDownLinkedMemRec = dropdown_link
+		end
+		gift_memrec.appendToEntry(group_memrec)
+	end
+
+	group_memrec.Collapsed = true
+
+	return group_memrec
+end
+
 local GIFTS_COUNT = 143
+local gifts_root_group = get_or_create_header_group("Gifts")
 generate_gifts_quantity_group("013E20BC", GIFTS_COUNT)
 generate_gifts_unlocked_group("013E22BC", GIFTS_COUNT)
 generate_gift_unlock_on_nonzero_quantity_script(true)
-get_or_create_header_group("Gifts").Collapsed = true
+gifts_root_group.Collapsed = true
 
 gift_unlock_record_mapping = get_description_record_mapping_of_group("Gifts Unlocked")
 
 generate_friendship_fragments_group("013E2324", "Friendship Fragments from Kaede POV")
 generate_friendship_fragments_group("013E2364", "Friendship Fragments from Shuichi POV")
 get_or_create_header_group("Friendship Fragments").Collapsed = true
+
+local handbook_theme_root_group = get_or_create_header_group("Handbook Theme")
+generate_bitmask_list_group("013E22FC", "Handbook Theme Unlocked", 38, "list/1 Unlocked 0 Locked", function(i)
+	return string.format("%02.0f", i)
+end).appendToEntry(handbook_theme_root_group)
+generate_bitmask_list_group("013E230C", "Handbook Theme Discovered", 38, nil, function(i)
+	return string.format("%02.0f", i)
+end).appendToEntry(handbook_theme_root_group)
+handbook_theme_root_group.Collapsed = true
 ]]></LuaScriptEntry>
   </LuaScript>
 </CheatTable>
