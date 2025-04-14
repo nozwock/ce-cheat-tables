@@ -90,7 +90,7 @@
           <CheatEntries>
             <CheatEntry>
               <ID>51</ID>
-              <Description>"Selected Theme"</Description>
+              <Description>"Selected Theme Index"</Description>
               <ShowAsHex>1</ShowAsHex>
               <ShowAsSigned>0</ShowAsSigned>
               <VariableType>Byte</VariableType>
@@ -144,7 +144,7 @@
       <CheatEntries>
         <CheatEntry>
           <ID>101</ID>
-          <Description>"list/Gift Unlocked State"</Description>
+          <Description>"list/0 Unlocked 1 Locked"</Description>
           <DropDownList ReadOnly="1" DescriptionOnly="1" DisplayValueAsItem="1">0:Unlocked
 1:Locked
 </DropDownList>
@@ -399,7 +399,7 @@ gifts_root_group.appendToEntry(monocoins_static_base_address_group)
 generate_homogeneous_list_group("+536", "Gifts Quantity", GIFTS_COUNT, "vtWord", 2, function(i)
 	return string.format("NO.%03.0f", i)
 end).appendToEntry(gifts_root_group)
-generate_bitmask_list_group("+736", "Gifts Unlocked", GIFTS_COUNT, "list/Gift Unlocked State", function(i)
+generate_bitmask_list_group("+736", "Gifts Unlocked", GIFTS_COUNT, "list/0 Unlocked 1 Locked", function(i)
 	return string.format("NO.%03.0f", i)
 end).appendToEntry(gifts_root_group)
 generate_gift_unlock_on_nonzero_quantity_script(true)
