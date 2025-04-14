@@ -84,7 +84,7 @@
         </CheatEntry>
         <CheatEntry>
           <ID>50</ID>
-          <Description>"Handbook Theme"</Description>
+          <Description>"Handbook Themes"</Description>
           <Options moRecursiveSetValue="1" moAlwaysHideChildren="1" moManualExpandCollapse="1" moActivateChildrenAsWell="1" moDeactivateChildrenAsWell="1" moAllowManualCollapseAndExpand="1"/>
           <GroupHeader>1</GroupHeader>
           <CheatEntries>
@@ -435,12 +435,12 @@ end).appendToEntry(friendship_fragments_root_group)
 friendship_fragments_root_group.Collapsed = true
 
 local HANDBOOK_THEME_COUNT = 38
-local handbook_theme_root_group = get_or_create_header_group("Handbook Theme")
+local handbook_theme_root_group = get_or_create_header_group("Handbook Themes")
 handbook_theme_root_group.appendToEntry(monocoins_static_base_address_group)
-generate_bitmask_list_group("+776", "Handbook Theme Unlocked", HANDBOOK_THEME_COUNT, "list/1 Unlocked 0 Locked").appendToEntry(
+generate_bitmask_list_group("+776", "Handbook Themes Unlocked", HANDBOOK_THEME_COUNT, "list/1 Unlocked 0 Locked").appendToEntry(
 	handbook_theme_root_group
 )
-generate_bitmask_list_group("+786", "Handbook Theme Discovered", HANDBOOK_THEME_COUNT).appendToEntry(
+generate_bitmask_list_group("+786", "Handbook Themes Viewed", HANDBOOK_THEME_COUNT).appendToEntry(
 	handbook_theme_root_group
 )
 handbook_theme_root_group.Collapsed = true
