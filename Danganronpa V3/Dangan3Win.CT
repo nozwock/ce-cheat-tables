@@ -189,7 +189,8 @@ end
 function set_gifts_quantity(value)
 	set_child_values("Gifts Quantity", value, false, function(memrec)
 		local id, _ = string.gsub(memrec.Description, "NO%.", "")
-		return tonumber(id) < 114
+        id = tonumber(id)
+		return id < 114 or id == 130
 	end)
 end
 
