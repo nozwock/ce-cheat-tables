@@ -391,12 +391,12 @@ function _disable_gift_unlock_on_nonzero_quantity()
 	end
 end
 
-local monocoins_static_base_address_group = AddressList.getMemoryRecordByDescription("Base Address [Monocoins]")
-assert(monocoins_static_base_address_group)
+local monocoins_base_address_group = AddressList.getMemoryRecordByDescription("Base Address [Monocoins]")
+assert(monocoins_base_address_group)
 
 local GIFTS_COUNT = 143
 local gifts_root_group = get_or_create_header_group("Gifts")
-gifts_root_group.appendToEntry(monocoins_static_base_address_group)
+gifts_root_group.appendToEntry(monocoins_base_address_group)
 generate_homogeneous_list_group("+536", "Gifts Quantity", GIFTS_COUNT, "vtWord", 2, function(i)
 	return string.format("NO.%03.0f", i)
 end).appendToEntry(gifts_root_group)
@@ -426,7 +426,7 @@ local friends_list = {
 	"Miu Iruma",
 }
 local friendship_fragments_root_group = get_or_create_header_group("Friendship Fragments")
-friendship_fragments_root_group.appendToEntry(monocoins_static_base_address_group)
+friendship_fragments_root_group.appendToEntry(monocoins_base_address_group)
 generate_homogeneous_list_group("+79E", "Friendship Fragments from Kaede POV", #friends_list, "vtWord", 2, function(i)
 	return friends_list[i]
 end).appendToEntry(friendship_fragments_root_group)
@@ -437,7 +437,7 @@ friendship_fragments_root_group.Collapsed = true
 
 local HANDBOOK_THEME_COUNT = 38
 local handbook_theme_root_group = get_or_create_header_group("Handbook Themes")
-handbook_theme_root_group.appendToEntry(monocoins_static_base_address_group)
+handbook_theme_root_group.appendToEntry(monocoins_base_address_group)
 generate_bitmask_list_group("+776", "Handbook Themes Unlocked", HANDBOOK_THEME_COUNT, "list/1 Unlocked 0 Locked").appendToEntry(
 	handbook_theme_root_group
 )
@@ -448,8 +448,52 @@ handbook_theme_root_group.Collapsed = true
 
 local HIDDEN_MONOKUMA_COUNT = 30
 generate_bitmask_list_group("+886", "Hidden Monokumas Unlocked", HIDDEN_MONOKUMA_COUNT).appendToEntry(
-	monocoins_static_base_address_group
+	monocoins_base_address_group
 )
+
+local EVENT_GALLERY_ITEM_COUNT = 301
+local MOVIE_GALLERY_ITEM_COUNT = 59
+local SOUND_GALLERY_ITEM_COUNT = 73
+local INTIMACY_EVENT_GALLERY_ITEM_COUNT = 126
+local extras_root_group = get_or_create_header_group("Extra Menu")
+extras_root_group.appendToEntry(monocoins_base_address_group)
+generate_bitmask_list_group("-3FE", "Event Gallery Purchased Items", EVENT_GALLERY_ITEM_COUNT).appendToEntry(
+	extras_root_group
+)
+generate_bitmask_list_group(
+	"-43E",
+	"Event Gallery Unlocked Items",
+	EVENT_GALLERY_ITEM_COUNT,
+	"list/1 Unlocked 0 Locked"
+).appendToEntry(extras_root_group)
+generate_bitmask_list_group("-36E", "Movie Gallery Purchased Items", MOVIE_GALLERY_ITEM_COUNT).appendToEntry(
+	extras_root_group
+)
+generate_bitmask_list_group(
+	"-37E",
+	"Movie Gallery Unlocked Items",
+	MOVIE_GALLERY_ITEM_COUNT,
+	"list/1 Unlocked 0 Locked"
+).appendToEntry(extras_root_group)
+generate_bitmask_list_group("-2CE", "Sound Gallery Purchased Items", SOUND_GALLERY_ITEM_COUNT).appendToEntry(
+	extras_root_group
+)
+generate_bitmask_list_group(
+	"-2EE",
+	"Sound Gallery Unlocked Items",
+	SOUND_GALLERY_ITEM_COUNT,
+	"list/1 Unlocked 0 Locked"
+).appendToEntry(extras_root_group)
+generate_bitmask_list_group("-26E", "Intimacy Event Gallery Purchased Items", INTIMACY_EVENT_GALLERY_ITEM_COUNT).appendToEntry(
+	extras_root_group
+)
+generate_bitmask_list_group(
+	"-28E",
+	"Intimacy Event Gallery Unlocked Items",
+	INTIMACY_EVENT_GALLERY_ITEM_COUNT,
+	"list/1 Unlocked 0 Locked"
+).appendToEntry(extras_root_group)
+extras_root_group.Collapsed = true
 ]]></LuaScriptEntry>
   </LuaScript>
   <Comments><![CDATA[Partially derived record addresses from https://fearlessrevolution.com/viewtopic.php?p=222782#p222782]]></Comments>
