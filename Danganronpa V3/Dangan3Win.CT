@@ -111,51 +111,6 @@
               <VariableType>Auto Assembler Script</VariableType>
               <AssemblerScript><![CDATA[{$lua}
 [ENABLE]
-local LazyRecordValueSetter = {
-	_cache = {},
-	new = function(self)
-		return setmetatable({ _cache = {} }, { __index = self })
-	end,
-}
-
----@param record_id integer
----@param value string | fun(): string
----@param custom_check? fun(record: userdata): boolean
-function LazyRecordValueSetter:set_value(record_id, value, custom_check)
-	---@param record userdata
-	---@param value string
-	---@param custom_check? fun(record: userdata): boolean
-	local function is_value_updated(record, value, custom_check)
-		local is_value_updated = false
-		if custom_check then
-			is_value_updated = custom_check(record)
-		else
-			is_value_updated = record.Value ~= value
-		end
-
-		return is_value_updated
-	end
-
-	if type(value) == "function" then
-		value = value()
-	end
-
-	local cached_record = self._cache[record_id]
-	if not cached_record then
-		local record = AddressList.getMemoryRecordByID(record_id)
-		if is_value_updated(record, value, custom_check) then
-			record.Value = value
-		end
-		self._cache[record_id] = { record = record, prev_value = record.Value }
-		cached_record = self._cache[record_id]
-	end
-
-	if is_value_updated(cached_record.record, cached_record.prev_value, custom_check) then
-		cached_record.record.Value = value
-		cached_record.prev_value = value
-	end
-end
-
 local record_value_map = {}
 
 do
@@ -189,24 +144,15 @@ do
 	end
 end
 
-FreezeTimers = FreezeTimers or {}
-
-if FreezeTimers[memrec.ID] then
-	FreezeTimers[memrec.ID].destroy()
-end
-
 local lazy_setter = LazyRecordValueSetter:new()
-local timer = createTimer()
-timer.Interval = getFreezeTimer().Interval
-timer.setOnTimer(function()
+newFreezeTimer(memrec.ID, function()
 	for id, t in pairs(record_value_map) do
 		lazy_setter:set_value(id, t.val, t.custom_check)
 	end
 end)
-
-FreezeTimers[memrec.ID] = timer
 [DISABLE]
-FreezeTimers[memrec.ID].destroy()]]></AssemblerScript>
+dropFreezeTimer(memrec.ID)
+]]></AssemblerScript>
             </CheatEntry>
             <CheatEntry>
               <ID>300</ID>
@@ -367,6 +313,78 @@ end
 		local scanlist = AOBScan("50 45 00 00 64 86 07 00 BD AA DC 59 00 00 00 00")
 		assert(scanlist, "Couldn't find the unique instruction sequence for Dangan3Win.exe")
 		registerSymbol("Dangan3Win.exe", string.format("%X", tonumber(scanlist[0], 16) - 0x128), true)
+	end
+end
+]]></LuaScriptEntry>
+    <LuaScriptEntry><![CDATA[LazyRecordValueSetter = {
+	_cache = {},
+	new = function(self)
+		return setmetatable({ _cache = {} }, { __index = self })
+	end,
+}
+
+---@param record_id integer
+---@param value string | fun(): string
+---@param custom_check? fun(record: userdata): boolean
+function LazyRecordValueSetter:set_value(record_id, value, custom_check)
+	---@param record userdata
+	---@param value string
+	---@param custom_check? fun(record: userdata): boolean
+	local function is_value_updated(record, value, custom_check)
+		local is_value_updated = false
+		if custom_check then
+			is_value_updated = custom_check(record)
+		else
+			is_value_updated = record.Value ~= value
+		end
+
+		return is_value_updated
+	end
+
+	if type(value) == "function" then
+		value = value()
+	end
+
+	local cached_record = self._cache[record_id]
+	if not cached_record then
+		local record = AddressList.getMemoryRecordByID(record_id)
+		if is_value_updated(record, value, custom_check) then
+			record.Value = value
+		end
+		self._cache[record_id] = { record = record, prev_value = record.Value }
+		cached_record = self._cache[record_id]
+	end
+
+	if is_value_updated(cached_record.record, cached_record.prev_value, custom_check) then
+		cached_record.record.Value = value
+		cached_record.prev_value = value
+	end
+end
+
+FreezeTimersMap = FreezeTimersMap or {}
+
+---@param id any
+---@param callback function
+---@return userdata
+function newFreezeTimer(id, callback)
+	local timer = FreezeTimersMap[id]
+	if not timer then
+		timer = createTimer()
+		FreezeTimersMap[id] = timer
+	end
+
+	timer.setOnTimer(callback)
+	timer.Interval = getFreezeTimer().Interval
+
+	return timer
+end
+
+---@param id any
+function dropFreezeTimer(id)
+	local timer = FreezeTimersMap[id]
+	if timer then
+		timer.destroy()
+		FreezeTimersMap[id] = nil
 	end
 end
 ]]></LuaScriptEntry>
