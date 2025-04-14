@@ -3,11 +3,14 @@
   <CheatEntries>
     <CheatEntry>
       <ID>780</ID>
-      <Description>"Static Base Address [Monocoins]"</Description>
+      <Description>"Base Address [Monocoins]"</Description>
       <Options moManualExpandCollapse="1" moDeactivateChildrenAsWell="1" moAllowManualCollapseAndExpand="1"/>
       <ShowAsSigned>0</ShowAsSigned>
       <GroupHeader>1</GroupHeader>
-      <Address>013E1B86</Address>
+      <Address>Dangan3Win.exe+D20080</Address>
+      <Offsets>
+        <Offset>2636</Offset>
+      </Offsets>
       <CheatEntries>
         <CheatEntry>
           <ID>0</ID>
@@ -191,6 +194,15 @@ function set_gifts_quantity(value)
 end
 
 -- set_gifts_quantity("25")
+]]></LuaScriptEntry>
+    <LuaScriptEntry><![CDATA[function onOpenProcess()
+	-- Symbol doesn't exist when running the game under wine/proton on linux
+	if not getAddressSafe("Dangan3Win.exe") then
+		local scanlist = AOBScan("50 45 00 00 64 86 07 00 BD AA DC 59 00 00 00 00")
+		assert(scanlist, "Couldn't find the unique instruction sequence for Dangan3Win.exe")
+		registerSymbol("Dangan3Win.exe", string.format("%X", tonumber(scanlist[0], 16) - 0x128), true)
+	end
+end
 ]]></LuaScriptEntry>
     <LuaScriptEntry><![CDATA[local header_default_options = {
 	"moActivateChildrenAsWell",
@@ -378,7 +390,7 @@ function _disable_gift_unlock_on_nonzero_quantity()
 	end
 end
 
-local monocoins_static_base_address_group = AddressList.getMemoryRecordByDescription("Static Base Address [Monocoins]")
+local monocoins_static_base_address_group = AddressList.getMemoryRecordByDescription("Base Address [Monocoins]")
 assert(monocoins_static_base_address_group)
 
 local GIFTS_COUNT = 143
