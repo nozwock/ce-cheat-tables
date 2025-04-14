@@ -102,20 +102,6 @@
           <GroupHeader>1</GroupHeader>
           <CheatEntries>
             <CheatEntry>
-              <ID>314</ID>
-              <Description>"Timer"</Description>
-              <ShowAsSigned>0</ShowAsSigned>
-              <VariableType>2 Bytes</VariableType>
-              <Address>+258412</Address>
-            </CheatEntry>
-            <CheatEntry>
-              <ID>315</ID>
-              <Description>"Timer Max"</Description>
-              <ShowAsSigned>0</ShowAsSigned>
-              <VariableType>2 Bytes</VariableType>
-              <Address>+258416</Address>
-            </CheatEntry>
-            <CheatEntry>
               <ID>310</ID>
               <Description>"Influence"</Description>
               <ShowAsSigned>0</ShowAsSigned>
@@ -448,15 +434,9 @@ generate_bitmask_list_group("+786", "Handbook Theme Discovered", HANDBOOK_THEME_
 handbook_theme_root_group.Collapsed = true
 
 local HIDDEN_MONOKUMA_COUNT = 30
-local hidden_monokumas_root_group = get_or_create_header_group("Hidden Monokumas")
-hidden_monokumas_root_group.appendToEntry(monocoins_static_base_address_group)
 generate_bitmask_list_group("+886", "Hidden Monokumas Unlocked", HIDDEN_MONOKUMA_COUNT).appendToEntry(
-	hidden_monokumas_root_group
+	monocoins_static_base_address_group
 )
-generate_bitmask_list_group("+19338E", "Hidden Monokumas Played With", HIDDEN_MONOKUMA_COUNT).appendToEntry(
-	hidden_monokumas_root_group
-)
-hidden_monokumas_root_group.Collapsed = true
 ]]></LuaScriptEntry>
   </LuaScript>
 </CheatTable>
