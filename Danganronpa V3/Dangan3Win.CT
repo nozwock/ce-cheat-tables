@@ -105,6 +105,27 @@
           <GroupHeader>1</GroupHeader>
           <CheatEntries>
             <CheatEntry>
+              <ID>300</ID>
+              <Description>"Timer"</Description>
+              <VariableType>Float</VariableType>
+              <Address>Dangan3Win.exe+00C25570</Address>
+              <Offsets>
+                <Offset>208</Offset>
+                <Offset>10</Offset>
+              </Offsets>
+            </CheatEntry>
+            <CheatEntry>
+              <ID>301</ID>
+              <Description>"Timer Max"</Description>
+              <ShowAsSigned>0</ShowAsSigned>
+              <VariableType>Float</VariableType>
+              <Address>Dangan3Win.exe+00C25570</Address>
+              <Offsets>
+                <Offset>20C</Offset>
+                <Offset>10</Offset>
+              </Offsets>
+            </CheatEntry>
+            <CheatEntry>
               <ID>310</ID>
               <Description>"Influence"</Description>
               <ShowAsSigned>0</ShowAsSigned>
@@ -131,6 +152,45 @@
               <ShowAsSigned>0</ShowAsSigned>
               <VariableType>2 Bytes</VariableType>
               <Address>-21E</Address>
+            </CheatEntry>
+            <CheatEntry>
+              <ID>302</ID>
+              <Description>"Focus (Nonstop Debate)"</Description>
+              <ShowAsSigned>0</ShowAsSigned>
+              <VariableType>4 Bytes</VariableType>
+              <Address>Dangan3Win.exe+00C25570</Address>
+              <Offsets>
+                <Offset>218</Offset>
+                <Offset>10</Offset>
+              </Offsets>
+            </CheatEntry>
+            <CheatEntry>
+              <ID>303</ID>
+              <Description>"Focus (Rebuttal Showdown)"</Description>
+              <VariableType>4 Bytes</VariableType>
+              <Address>Dangan3Win.exe+00A23F00</Address>
+              <Offsets>
+                <Offset>AF40</Offset>
+              </Offsets>
+            </CheatEntry>
+            <CheatEntry>
+              <ID>304</ID>
+              <Description>"Focus (Argument Armament)"</Description>
+              <VariableType>4 Bytes</VariableType>
+              <Address>"Dangan3Win.exe"+00A23440</Address>
+              <Offsets>
+                <Offset>8</Offset>
+              </Offsets>
+            </CheatEntry>
+            <CheatEntry>
+              <ID>305</ID>
+              <Description>"Enemy HP (Argument Armament)"</Description>
+              <ShowAsSigned>0</ShowAsSigned>
+              <VariableType>4 Bytes</VariableType>
+              <Address>Dangan3Win.exe+00A23440</Address>
+              <Offsets>
+                <Offset>68</Offset>
+              </Offsets>
             </CheatEntry>
           </CheatEntries>
         </CheatEntry>
