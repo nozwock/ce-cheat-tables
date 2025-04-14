@@ -105,6 +105,110 @@
           <GroupHeader>1</GroupHeader>
           <CheatEntries>
             <CheatEntry>
+              <ID>314</ID>
+              <Description>"Lock Timer, Influence, and Focus"</Description>
+              <Color>0000CC</Color>
+              <VariableType>Auto Assembler Script</VariableType>
+              <AssemblerScript><![CDATA[{$lua}
+[ENABLE]
+local LazyRecordValueSetter = {
+	_cache = {},
+	new = function(self)
+		return setmetatable({ _cache = {} }, { __index = self })
+	end,
+}
+
+---@param record_id integer
+---@param value string | fun(): string
+---@param custom_check? fun(record: userdata): boolean
+function LazyRecordValueSetter:set_value(record_id, value, custom_check)
+	---@param record userdata
+	---@param value string
+	---@param custom_check? fun(record: userdata): boolean
+	local function is_value_updated(record, value, custom_check)
+		local is_value_updated = false
+		if custom_check then
+			is_value_updated = custom_check(record)
+		else
+			is_value_updated = record.Value ~= value
+		end
+
+		return is_value_updated
+	end
+
+	if type(value) == "function" then
+		value = value()
+	end
+
+	local cached_record = self._cache[record_id]
+	if not cached_record then
+		local record = AddressList.getMemoryRecordByID(record_id)
+		if is_value_updated(record, value, custom_check) then
+			record.Value = value
+		end
+		self._cache[record_id] = { record = record, prev_value = record.Value }
+		cached_record = self._cache[record_id]
+	end
+
+	if is_value_updated(cached_record.record, cached_record.prev_value, custom_check) then
+		cached_record.record.Value = value
+		cached_record.prev_value = value
+	end
+end
+
+local record_value_map = {}
+
+do
+	local timer_max_memrec = AddressList.getMemoryRecordByDescription("Timer Max")
+	local timer_memrec = AddressList.getMemoryRecordByDescription("Timer")
+	record_value_map[timer_memrec.ID] = {
+		val = function()
+			return timer_max_memrec.Value
+		end,
+	}
+
+	local influence_max_memrec = AddressList.getMemoryRecordByDescription("Influence Max")
+	local influence_memrec = AddressList.getMemoryRecordByDescription("Influence")
+	record_value_map[influence_memrec.ID] = {
+		val = function()
+			return influence_max_memrec.Value
+		end,
+	}
+
+	local class_trial_memrec = AddressList.getMemoryRecordByDescription("Class Trial")
+	local focus_max_memrec = AddressList.getMemoryRecordByDescription("Focus Max")
+	for i = 0, class_trial_memrec.Count - 1 do
+		local child = class_trial_memrec.Child[i]
+		if string.match(child.Description, "^Focus") and child.Description ~= "Focus Max" then
+			record_value_map[child.ID] = {
+				val = function()
+					return focus_max_memrec.Value
+				end,
+			}
+		end
+	end
+end
+
+FreezeTimers = FreezeTimers or {}
+
+if FreezeTimers[memrec.ID] then
+	FreezeTimers[memrec.ID].destroy()
+end
+
+local lazy_setter = LazyRecordValueSetter:new()
+local timer = createTimer()
+timer.Interval = getFreezeTimer().Interval
+timer.setOnTimer(function()
+	for id, t in pairs(record_value_map) do
+		lazy_setter:set_value(id, t.val, t.custom_check)
+	end
+end)
+
+FreezeTimers[memrec.ID] = timer
+[DISABLE]
+FreezeTimers[memrec.ID].destroy()]]></AssemblerScript>
+            </CheatEntry>
+            <CheatEntry>
               <ID>300</ID>
               <Description>"Timer"</Description>
               <VariableType>Float</VariableType>
