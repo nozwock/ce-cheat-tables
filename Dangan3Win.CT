@@ -2,134 +2,148 @@
 <CheatTable CheatEngineTableVersion="45">
   <CheatEntries>
     <CheatEntry>
-      <ID>0</ID>
-      <Description>"Monocoins"</Description>
+      <ID>780</ID>
+      <Description>"Static Base Address [Monocoins]"</Description>
+      <Options moManualExpandCollapse="1" moDeactivateChildrenAsWell="1" moAllowManualCollapseAndExpand="1"/>
       <ShowAsSigned>0</ShowAsSigned>
-      <VariableType>2 Bytes</VariableType>
+      <GroupHeader>1</GroupHeader>
       <Address>013E1B86</Address>
-    </CheatEntry>
-    <CheatEntry>
-      <ID>1</ID>
-      <Description>"Skill Fragments"</Description>
-      <VariableType>2 Bytes</VariableType>
-      <Address>013E196E</Address>
-    </CheatEntry>
-    <CheatEntry>
-      <ID>9</ID>
-      <Description>"Casino Coins"</Description>
-      <ShowAsSigned>0</ShowAsSigned>
-      <VariableType>4 Bytes</VariableType>
-      <Address>13EA430</Address>
-    </CheatEntry>
-    <CheatEntry>
-      <ID>10</ID>
-      <Description>"S-Tickets"</Description>
-      <ShowAsSigned>0</ShowAsSigned>
-      <VariableType>4 Bytes</VariableType>
-      <Address>13EA50C</Address>
-    </CheatEntry>
-    <CheatEntry>
-      <ID>11</ID>
-      <Description>"U-Tickets"</Description>
-      <ShowAsSigned>0</ShowAsSigned>
-      <VariableType>4 Bytes</VariableType>
-      <Address>13EA510</Address>
-    </CheatEntry>
-    <CheatEntry>
-      <ID>4</ID>
-      <Description>"Player Level"</Description>
-      <Options moHideChildren="1" moManualExpandCollapse="1" moDeactivateChildrenAsWell="1" moAllowManualCollapseAndExpand="1"/>
-      <GroupHeader>1</GroupHeader>
       <CheatEntries>
         <CheatEntry>
-          <ID>8</ID>
-          <Description>"Lv 1-5 = 500 Exp | Lv 6-? = 1000 Exp"</Description>
-          <Color>CC0000</Color>
-          <GroupHeader>1</GroupHeader>
+          <ID>0</ID>
+          <Description>"Monocoins"</Description>
+          <ShowAsSigned>0</ShowAsSigned>
+          <VariableType>2 Bytes</VariableType>
+          <Address>+0</Address>
         </CheatEntry>
         <CheatEntry>
-          <ID>5</ID>
-          <Description>"Total Experience"</Description>
+          <ID>1</ID>
+          <Description>"Skill Fragments"</Description>
+          <ShowAsSigned>0</ShowAsSigned>
+          <VariableType>2 Bytes</VariableType>
+          <Address>-218</Address>
+        </CheatEntry>
+        <CheatEntry>
+          <ID>9</ID>
+          <Description>"Casino Coins"</Description>
+          <ShowAsSigned>0</ShowAsSigned>
           <VariableType>4 Bytes</VariableType>
-          <Address>013E1960</Address>
+          <Address>+88AA</Address>
         </CheatEntry>
         <CheatEntry>
-          <ID>6</ID>
-          <Description>"Visual Level"</Description>
-          <VariableType>2 Bytes</VariableType>
-          <Address>013E195C</Address>
-        </CheatEntry>
-        <CheatEntry>
-          <ID>7</ID>
-          <Description>"Reflected Level / Skill Slots"</Description>
-          <VariableType>2 Bytes</VariableType>
-          <Address>013E196C</Address>
-        </CheatEntry>
-      </CheatEntries>
-    </CheatEntry>
-    <CheatEntry>
-      <ID>50</ID>
-      <Description>"Handbook Theme"</Description>
-      <Options moAlwaysHideChildren="1" moManualExpandCollapse="1" moActivateChildrenAsWell="1" moDeactivateChildrenAsWell="1" moRecursiveSetValue="1" moAllowManualCollapseAndExpand="1"/>
-      <GroupHeader>1</GroupHeader>
-      <CheatEntries>
-        <CheatEntry>
-          <ID>51</ID>
-          <Description>"Selected Theme"</Description>
-          <ShowAsHex>1</ShowAsHex>
+          <ID>10</ID>
+          <Description>"S-Tickets"</Description>
           <ShowAsSigned>0</ShowAsSigned>
-          <VariableType>Byte</VariableType>
-          <Address>13E2414</Address>
-        </CheatEntry>
-      </CheatEntries>
-    </CheatEntry>
-    <CheatEntry>
-      <ID>313</ID>
-      <Description>"Class Trial"</Description>
-      <Options moAlwaysHideChildren="1" moManualExpandCollapse="1" moDeactivateChildrenAsWell="1" moAllowManualCollapseAndExpand="1"/>
-      <GroupHeader>1</GroupHeader>
-      <CheatEntries>
-        <CheatEntry>
-          <ID>314</ID>
-          <Description>"Timer"</Description>
-          <ShowAsSigned>0</ShowAsSigned>
-          <VariableType>2 Bytes</VariableType>
-          <Address>1639F98</Address>
+          <VariableType>4 Bytes</VariableType>
+          <Address>+8986</Address>
         </CheatEntry>
         <CheatEntry>
-          <ID>315</ID>
-          <Description>"Timer Max"</Description>
+          <ID>11</ID>
+          <Description>"U-Tickets"</Description>
           <ShowAsSigned>0</ShowAsSigned>
-          <VariableType>2 Bytes</VariableType>
-          <Address>1639F9C</Address>
+          <VariableType>4 Bytes</VariableType>
+          <Address>+898A</Address>
         </CheatEntry>
         <CheatEntry>
-          <ID>310</ID>
-          <Description>"Influence"</Description>
-          <ShowAsSigned>0</ShowAsSigned>
-          <VariableType>2 Bytes</VariableType>
-          <Address>13E1966</Address>
+          <ID>4</ID>
+          <Description>"Player Level"</Description>
+          <Options moHideChildren="1" moManualExpandCollapse="1" moDeactivateChildrenAsWell="1" moAllowManualCollapseAndExpand="1"/>
+          <GroupHeader>1</GroupHeader>
+          <CheatEntries>
+            <CheatEntry>
+              <ID>8</ID>
+              <Description>"Lv 1-5 = 500 Exp | Lv 6-? = 1000 Exp"</Description>
+              <Color>CC0000</Color>
+              <GroupHeader>1</GroupHeader>
+            </CheatEntry>
+            <CheatEntry>
+              <ID>5</ID>
+              <Description>"Total Experience"</Description>
+              <ShowAsSigned>0</ShowAsSigned>
+              <VariableType>4 Bytes</VariableType>
+              <Address>-226</Address>
+            </CheatEntry>
+            <CheatEntry>
+              <ID>6</ID>
+              <Description>"Visual Level"</Description>
+              <ShowAsSigned>0</ShowAsSigned>
+              <VariableType>2 Bytes</VariableType>
+              <Address>-22A</Address>
+            </CheatEntry>
+            <CheatEntry>
+              <ID>7</ID>
+              <Description>"Reflected Level / Skill Slots"</Description>
+              <ShowAsSigned>0</ShowAsSigned>
+              <VariableType>2 Bytes</VariableType>
+              <Address>-21A</Address>
+            </CheatEntry>
+          </CheatEntries>
         </CheatEntry>
         <CheatEntry>
-          <ID>309</ID>
-          <Description>"Influence Max"</Description>
-          <ShowAsSigned>0</ShowAsSigned>
-          <VariableType>2 Bytes</VariableType>
-          <Address>13E1964</Address>
+          <ID>50</ID>
+          <Description>"Handbook Theme"</Description>
+          <Options moRecursiveSetValue="1" moAlwaysHideChildren="1" moManualExpandCollapse="1" moActivateChildrenAsWell="1" moDeactivateChildrenAsWell="1" moAllowManualCollapseAndExpand="1"/>
+          <GroupHeader>1</GroupHeader>
+          <CheatEntries>
+            <CheatEntry>
+              <ID>51</ID>
+              <Description>"Selected Theme"</Description>
+              <ShowAsHex>1</ShowAsHex>
+              <ShowAsSigned>0</ShowAsSigned>
+              <VariableType>Byte</VariableType>
+              <Address>+88E</Address>
+            </CheatEntry>
+          </CheatEntries>
         </CheatEntry>
         <CheatEntry>
-          <ID>312</ID>
-          <Description>"Focus"</Description>
-          <ShowAsSigned>0</ShowAsSigned>
-          <VariableType>2 Bytes</VariableType>
-          <Address>13E196A</Address>
-        </CheatEntry>
-        <CheatEntry>
-          <ID>311</ID>
-          <Description>"Focus Max"</Description>
-          <ShowAsSigned>0</ShowAsSigned>
-          <VariableType>2 Bytes</VariableType>
-          <Address>13E1968</Address>
+          <ID>313</ID>
+          <Description>"Class Trial"</Description>
+          <Options moAlwaysHideChildren="1" moManualExpandCollapse="1" moDeactivateChildrenAsWell="1" moAllowManualCollapseAndExpand="1"/>
+          <GroupHeader>1</GroupHeader>
+          <CheatEntries>
+            <CheatEntry>
+              <ID>314</ID>
+              <Description>"Timer"</Description>
+              <ShowAsSigned>0</ShowAsSigned>
+              <VariableType>2 Bytes</VariableType>
+              <Address>+258412</Address>
+            </CheatEntry>
+            <CheatEntry>
+              <ID>315</ID>
+              <Description>"Timer Max"</Description>
+              <ShowAsSigned>0</ShowAsSigned>
+              <VariableType>2 Bytes</VariableType>
+              <Address>+258416</Address>
+            </CheatEntry>
+            <CheatEntry>
+              <ID>310</ID>
+              <Description>"Influence"</Description>
+              <ShowAsSigned>0</ShowAsSigned>
+              <VariableType>2 Bytes</VariableType>
+              <Address>-220</Address>
+            </CheatEntry>
+            <CheatEntry>
+              <ID>309</ID>
+              <Description>"Influence Max"</Description>
+              <ShowAsSigned>0</ShowAsSigned>
+              <VariableType>2 Bytes</VariableType>
+              <Address>-222</Address>
+            </CheatEntry>
+            <CheatEntry>
+              <ID>312</ID>
+              <Description>"Focus"</Description>
+              <ShowAsSigned>0</ShowAsSigned>
+              <VariableType>2 Bytes</VariableType>
+              <Address>-21C</Address>
+            </CheatEntry>
+            <CheatEntry>
+              <ID>311</ID>
+              <Description>"Focus Max"</Description>
+              <ShowAsSigned>0</ShowAsSigned>
+              <VariableType>2 Bytes</VariableType>
+              <Address>-21E</Address>
+            </CheatEntry>
+          </CheatEntries>
         </CheatEntry>
       </CheatEntries>
     </CheatEntry>
@@ -378,12 +392,16 @@ function _disable_gift_unlock_on_nonzero_quantity()
 	end
 end
 
+local monocoins_static_base_address_group = AddressList.getMemoryRecordByDescription("Static Base Address [Monocoins]")
+assert(monocoins_static_base_address_group)
+
 local GIFTS_COUNT = 143
 local gifts_root_group = get_or_create_header_group("Gifts")
-generate_homogeneous_list_group("013E20BC", "Gifts Quantity", GIFTS_COUNT, "vtWord", 2, function(i)
+gifts_root_group.appendToEntry(monocoins_static_base_address_group)
+generate_homogeneous_list_group("+536", "Gifts Quantity", GIFTS_COUNT, "vtWord", 2, function(i)
 	return string.format("NO.%03.0f", i)
 end).appendToEntry(gifts_root_group)
-generate_bitmask_list_group("013E22BC", "Gifts Unlocked", GIFTS_COUNT, "list/Gift Unlocked State", function(i)
+generate_bitmask_list_group("+736", "Gifts Unlocked", GIFTS_COUNT, "list/Gift Unlocked State", function(i)
 	return string.format("NO.%03.0f", i)
 end).appendToEntry(gifts_root_group)
 generate_gift_unlock_on_nonzero_quantity_script(true)
@@ -409,44 +427,33 @@ local friends_list = {
 	"Miu Iruma",
 }
 local friendship_fragments_root_group = get_or_create_header_group("Friendship Fragments")
-generate_homogeneous_list_group(
-	"013E2324",
-	"Friendship Fragments from Kaede POV",
-	#friends_list,
-	"vtWord",
-	2,
-	function(i)
-		return friends_list[i]
-	end
-).appendToEntry(friendship_fragments_root_group)
-generate_homogeneous_list_group(
-	"013E2364",
-	"Friendship Fragments from Shuichi POV",
-	#friends_list,
-	"vtWord",
-	2,
-	function(i)
-		return friends_list[i]
-	end
-).appendToEntry(friendship_fragments_root_group)
+friendship_fragments_root_group.appendToEntry(monocoins_static_base_address_group)
+generate_homogeneous_list_group("+79E", "Friendship Fragments from Kaede POV", #friends_list, "vtWord", 2, function(i)
+	return friends_list[i]
+end).appendToEntry(friendship_fragments_root_group)
+generate_homogeneous_list_group("+7DE", "Friendship Fragments from Shuichi POV", #friends_list, "vtWord", 2, function(i)
+	return friends_list[i]
+end).appendToEntry(friendship_fragments_root_group)
 friendship_fragments_root_group.Collapsed = true
 
 local HANDBOOK_THEME_COUNT = 38
 local handbook_theme_root_group = get_or_create_header_group("Handbook Theme")
-generate_bitmask_list_group("013E22FC", "Handbook Theme Unlocked", HANDBOOK_THEME_COUNT, "list/1 Unlocked 0 Locked").appendToEntry(
+handbook_theme_root_group.appendToEntry(monocoins_static_base_address_group)
+generate_bitmask_list_group("+776", "Handbook Theme Unlocked", HANDBOOK_THEME_COUNT, "list/1 Unlocked 0 Locked").appendToEntry(
 	handbook_theme_root_group
 )
-generate_bitmask_list_group("013E230C", "Handbook Theme Discovered", HANDBOOK_THEME_COUNT).appendToEntry(
+generate_bitmask_list_group("+786", "Handbook Theme Discovered", HANDBOOK_THEME_COUNT).appendToEntry(
 	handbook_theme_root_group
 )
 handbook_theme_root_group.Collapsed = true
 
 local HIDDEN_MONOKUMA_COUNT = 30
 local hidden_monokumas_root_group = get_or_create_header_group("Hidden Monokumas")
-generate_bitmask_list_group("013E240C", "Hidden Monokumas Unlocked", HIDDEN_MONOKUMA_COUNT).appendToEntry(
+hidden_monokumas_root_group.appendToEntry(monocoins_static_base_address_group)
+generate_bitmask_list_group("+886", "Hidden Monokumas Unlocked", HIDDEN_MONOKUMA_COUNT).appendToEntry(
 	hidden_monokumas_root_group
 )
-generate_bitmask_list_group("01574F14", "Hidden Monokumas Played With", HIDDEN_MONOKUMA_COUNT).appendToEntry(
+generate_bitmask_list_group("+19338E", "Hidden Monokumas Played With", HIDDEN_MONOKUMA_COUNT).appendToEntry(
 	hidden_monokumas_root_group
 )
 hidden_monokumas_root_group.Collapsed = true
