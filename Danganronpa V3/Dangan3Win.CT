@@ -307,12 +307,23 @@ end
 
 -- set_gifts_quantity("25")
 ]]></LuaScriptEntry>
-    <LuaScriptEntry><![CDATA[function onOpenProcess()
+    <LuaScriptEntry><![CDATA[local function register_main_symbol_if_not_present()
 	-- Symbol doesn't exist when running the game under wine/proton on linux
 	if not getAddressSafe("Dangan3Win.exe") then
 		local scanlist = AOBScan("50 45 00 00 64 86 07 00 BD AA DC 59 00 00 00 00")
 		assert(scanlist, "Couldn't find the unique instruction sequence for Dangan3Win.exe")
 		registerSymbol("Dangan3Win.exe", string.format("%X", tonumber(scanlist[0], 16) - 0x128), true)
+	end
+end
+
+function onOpenProcess()
+	register_main_symbol_if_not_present()
+end
+
+do
+	local is_process_already_opened = getOpenedProcessID() ~= 0
+	if is_process_already_opened then
+		register_main_symbol_if_not_present()
 	end
 end
 ]]></LuaScriptEntry>
