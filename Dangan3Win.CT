@@ -451,4 +451,5 @@ generate_bitmask_list_group("+886", "Hidden Monokumas Unlocked", HIDDEN_MONOKUMA
 )
 ]]></LuaScriptEntry>
   </LuaScript>
+  <Comments><![CDATA[Partially derived record addresses from https://fearlessrevolution.com/viewtopic.php?p=222782#p222782]]></Comments>
 </CheatTable>
