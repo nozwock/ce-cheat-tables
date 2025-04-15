@@ -376,8 +376,9 @@ FreezeTimersMap = FreezeTimersMap or {}
 
 ---@param id any
 ---@param callback function
+---@param interval_ms? integer
 ---@return userdata
-function newFreezeTimer(id, callback)
+function newFreezeTimer(id, callback, interval_ms)
 	local timer = FreezeTimersMap[id]
 	if not timer then
 		timer = createTimer()
@@ -385,7 +386,11 @@ function newFreezeTimer(id, callback)
 	end
 
 	timer.setOnTimer(callback)
-	timer.Interval = getFreezeTimer().Interval
+	if interval_ms then
+		timer.Interval = interval_ms
+	else
+		timer.Interval = getFreezeTimer().Interval
+	end
 
 	return timer
 end
