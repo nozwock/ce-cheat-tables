@@ -333,7 +333,8 @@ end
 ---@param record_id integer
 ---@param value string | fun(): string
 ---@param custom_check? fun(record: userdata): boolean
-function LazyRecordValueSetter:set_value(record_id, value, custom_check)
+---@param initial_set_on_cache? boolean
+function LazyRecordValueSetter:set_value(record_id, value, custom_check, initial_set_on_cache)
 	---@param record userdata
 	---@param value string
 	---@param custom_check? fun(record: userdata): boolean
@@ -355,7 +356,8 @@ function LazyRecordValueSetter:set_value(record_id, value, custom_check)
 	local cached_record = self._cache[record_id]
 	if not cached_record then
 		local record = AddressList.getMemoryRecordByID(record_id)
-		if is_value_updated(record, value, custom_check) then
+        assert(record)
+		if is_value_updated(record, value, custom_check) and initial_set_on_cache == true then
 			record.Value = value
 		end
 		self._cache[record_id] = { record = record, prev_value = record.Value }
