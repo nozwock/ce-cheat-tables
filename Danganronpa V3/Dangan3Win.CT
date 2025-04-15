@@ -125,9 +125,7 @@ do
 	local influence_max_memrec = AddressList.getMemoryRecordByDescription("Influence Max")
 	local influence_memrec = AddressList.getMemoryRecordByDescription("Influence")
 	record_value_map[influence_memrec.ID] = {
-		val = function()
-			return influence_max_memrec.Value
-		end,
+		val = tostring(math.max(tonumber(influence_max_memrec.Value) or 0, tonumber(influence_memrec.Value) or 0)),
 	}
 
 	local class_trial_memrec = AddressList.getMemoryRecordByDescription("Class Trial")
@@ -136,9 +134,7 @@ do
 		local child = class_trial_memrec.Child[i]
 		if string.match(child.Description, "^Focus") and child.Description ~= "Focus Max" then
 			record_value_map[child.ID] = {
-				val = function()
-					return focus_max_memrec.Value
-				end,
+				val = tostring(math.max(tonumber(focus_max_memrec.Value) or 0, tonumber(child.Value) or 0)),
 			}
 		end
 	end
