@@ -402,7 +402,7 @@ function dropFreezeTimer(id)
 	end
 end
 ]]></LuaScriptEntry>
-    <LuaScriptEntry><![CDATA[local header_default_options = {
+    <LuaScriptEntry><![CDATA[local HEADER_DEFAULT_OPTIONS = {
 	"moActivateChildrenAsWell",
 	"moDeactivateChildrenAsWell",
 	"moRecursiveSetValue",
@@ -411,18 +411,23 @@ end
 }
 
 ---@param group_caption string
+---@param is_support_address? boolean
 ---@return userdata
-local function get_or_create_header_group(group_caption)
+local function get_or_create_header_group(group_caption, is_support_address)
 	local _memrec = AddressList.getMemoryRecordByDescription(group_caption)
 	if _memrec ~= nil then
 		return _memrec
 	end
 
 	local group_memrec = AddressList.createMemoryRecord()
-	group_memrec.IsGroupHeader = true
+	if is_support_address then
+		group_memrec.IsAddressGroupHeader = true
+	else
+		group_memrec.IsGroupHeader = true
+	end
 	group_memrec.DontSave = true
 	group_memrec.Description = group_caption
-	group_memrec.Options = table.concat(header_default_options, ",")
+	group_memrec.Options = table.concat(HEADER_DEFAULT_OPTIONS, ",")
 	group_memrec.Collapsed = true
 
 	return group_memrec
@@ -456,7 +461,7 @@ local function generate_homogeneous_list_group(
 	group_memrec.DontSave = true
 	group_memrec.Description = group_caption
 	group_memrec.Address = base_address
-	group_memrec.Options = table.concat(header_default_options, ",")
+	group_memrec.Options = table.concat(HEADER_DEFAULT_OPTIONS, ",")
 
 	for i = 0, item_count - 1 do
 		local offset = i * vartype_size
@@ -495,7 +500,7 @@ local function generate_bitmask_list_group(base_address, group_caption, bit_leng
 	group_memrec.DontSave = true
 	group_memrec.Description = group_caption
 	group_memrec.Address = base_address
-	group_memrec.Options = table.concat(header_default_options, ",")
+	group_memrec.Options = table.concat(HEADER_DEFAULT_OPTIONS, ",")
 
 	for i = 0, bit_length - 1 do
 		local gift_memrec = AddressList.createMemoryRecord()
@@ -644,9 +649,33 @@ generate_bitmask_list_group("+786", "Handbook Themes Viewed", HANDBOOK_THEME_COU
 handbook_theme_root_group.Collapsed = true
 
 local HIDDEN_MONOKUMA_COUNT = 30
-generate_bitmask_list_group("+886", "Hidden Monokumas Unlocked", HIDDEN_MONOKUMA_COUNT).appendToEntry(
-	monocoins_base_address_group
-)
+local hidden_monokumas_root_group = get_or_create_header_group("Hidden Monokumas")
+hidden_monokumas_root_group.appendToEntry(monocoins_base_address_group)
+do
+	generate_bitmask_list_group(
+		"+886",
+		"Hidden Monokumas Unlocked [Serialized]",
+		HIDDEN_MONOKUMA_COUNT,
+		"list/1 Unlocked 0 Locked"
+	).appendToEntry(hidden_monokumas_root_group)
+
+	local memrec = generate_bitmask_list_group(
+		"Dangan3Win.exe+00C28088",
+		"Hidden Monokumas Unlocked",
+		HIDDEN_MONOKUMA_COUNT,
+		"list/1 Unlocked 0 Locked"
+	)
+	memrec.setOffsetCount(1)
+	memrec.setOffset(0, 0x1034)
+	memrec.appendToEntry(hidden_monokumas_root_group)
+
+	local info_memrec = get_or_create_header_group(
+		"Only the serialized one persists in saves; other reset to its state on load, but it only takes effect after a save load."
+	)
+	info_memrec.Color = 0xCC0000
+	info_memrec.appendToEntry(hidden_monokumas_root_group)
+end
+hidden_monokumas_root_group.Collapsed = true
 
 local EVENT_GALLERY_ITEM_COUNT = 301
 local MOVIE_GALLERY_ITEM_COUNT = 59
