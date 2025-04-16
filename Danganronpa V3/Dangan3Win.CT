@@ -240,6 +240,34 @@ dropFreezeTimer(memrec.ID)
             </CheatEntry>
           </CheatEntries>
         </CheatEntry>
+        <CheatEntry>
+          <ID>2375</ID>
+          <Description>"Chapter 6 Stats"</Description>
+          <Options moHideChildren="1" moManualExpandCollapse="1" moDeactivateChildrenAsWell="1" moAllowManualCollapseAndExpand="1"/>
+          <GroupHeader>1</GroupHeader>
+          <CheatEntries>
+            <CheatEntry>
+              <ID>2373</ID>
+              <Description>"Friendship Power"</Description>
+              <ShowAsSigned>0</ShowAsSigned>
+              <VariableType>2 Bytes</VariableType>
+              <Address>Dangan3Win.exe+00C28088</Address>
+              <Offsets>
+                <Offset>202E</Offset>
+              </Offsets>
+            </CheatEntry>
+            <CheatEntry>
+              <ID>2374</ID>
+              <Description>"Countdown To Dawn"</Description>
+              <ShowAsSigned>0</ShowAsSigned>
+              <VariableType>4 Bytes</VariableType>
+              <Address>Dangan3Win.exe+00C28088</Address>
+              <Offsets>
+                <Offset>9258</Offset>
+              </Offsets>
+            </CheatEntry>
+          </CheatEntries>
+        </CheatEntry>
       </CheatEntries>
     </CheatEntry>
     <CheatEntry>
@@ -672,6 +700,7 @@ do
 	local info_memrec = get_or_create_header_group(
 		"Only the serialized one persists in saves; other reset to its state on load, but it only takes effect after a save load."
 	)
+	info_memrec.Options = ""
 	info_memrec.Color = 0xCC0000
 	info_memrec.appendToEntry(hidden_monokumas_root_group)
 end
