@@ -437,6 +437,47 @@ function dropFreezeTimer(id)
 		FreezeTimersMap[id] = nil
 	end
 end
+
+---@class MemoryRecordFreezeOptions
+---@field AllowIncrease? boolean
+---@field AllowDecrease? boolean
+
+---@param memrec userdata
+---@param options MemoryRecordFreezeOptions
+---@param reset_previous_callback? boolean
+function setMemoryRecordFreezeOptions(memrec, options, reset_previous_callback)
+	local cb
+	if options.AllowIncrease then
+		cb = function(memrec, prev, curr)
+			memrec.AllowIncrease = true
+			return true
+		end
+	elseif options.AllowDecrease then
+		cb = function(memrec, prev, curr)
+			memrec.AllowDecrease = true
+			return true
+		end
+	elseif options.AllowIncrease and options.AllowDecrease then
+		cb = function(memrec, prev, curr)
+			memrec.AllowIncrease = true
+			memrec.AllowDecrease = true
+			return true
+		end
+	else
+		return
+	end
+
+	if not reset_previous_callback and memrec.OnActivate then
+		-- todo: abstract away chaining callbacks into a proper type that manages these callbacks, etc
+		local prev_cb = memrec.OnActivate
+		memrec.OnActivate = function(memrec, prev, curr)
+			prev_cb(memrec, prev, curr)
+			cb(memrec, prev, curr)
+		end
+	else
+		memrec.OnActivate = cb
+	end
+end
 ]]></LuaScriptEntry>
     <LuaScriptEntry><![CDATA[local HEADER_DEFAULT_OPTIONS = {
 	"moActivateChildrenAsWell",
@@ -757,6 +798,17 @@ generate_bitmask_list_group(
 	"list/1 Unlocked 0 Locked"
 ).appendToEntry(extras_root_group)
 extras_root_group.Collapsed = true
+]]></LuaScriptEntry>
+    <LuaScriptEntry><![CDATA[local record_freeze_options = {
+	["Countdown To Dawn"] = { AllowIncrease = true },
+}
+
+for description, options in pairs(record_freeze_options) do
+	local memrec = AddressList.getMemoryRecordByDescription(description)
+	if memrec then
+		setMemoryRecordFreezeOptions(memrec, options, true)
+	end
+end
 ]]></LuaScriptEntry>
   </LuaScript>
 </CheatTable>
