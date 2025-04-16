@@ -365,6 +365,14 @@ end
 function LazyRecordValueSetter:set_value(record_id, value, custom_check, initial_set_on_cache)
 	---@param record userdata
 	---@param value string
+	local function set_record_value(record, value)
+		if record.Value ~= "??" then
+			record.Value = value
+		end
+	end
+
+	---@param record userdata
+	---@param value string
 	---@param custom_check? fun(record: userdata): boolean
 	local function is_value_updated(record, value, custom_check)
 		local is_value_updated = false
@@ -384,16 +392,16 @@ function LazyRecordValueSetter:set_value(record_id, value, custom_check, initial
 	local cached_record = self._cache[record_id]
 	if not cached_record then
 		local record = AddressList.getMemoryRecordByID(record_id)
-        assert(record)
-		if is_value_updated(record, value, custom_check) and initial_set_on_cache == true then
-			record.Value = value
+		assert(record)
+		if initial_set_on_cache == true and is_value_updated(record, value, custom_check) then
+			set_record_value(record, value)
 		end
 		self._cache[record_id] = { record = record, prev_value = record.Value }
 		cached_record = self._cache[record_id]
 	end
 
 	if is_value_updated(cached_record.record, cached_record.prev_value, custom_check) then
-		cached_record.record.Value = value
+		set_record_value(cached_record.record, value)
 		cached_record.prev_value = value
 	end
 end
