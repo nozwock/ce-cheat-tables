@@ -789,6 +789,23 @@ function _disable_gift_unlock_on_nonzero_quantity()
 	end
 end
 
+---@param mapping_list DropDownMappingList
+---@param options? DropDownListOptions
+---@return userdata, string
+local function createTransiantDropDownList(mapping_list, options)
+	if not options then
+		options = { DisplayAsDropDownListItem = true, DropDownReadOnly = true }
+	end
+
+	local memrec, name = createDropDownList(mapping_list, nil, options, "[Table Internal Data]")
+	memrec.DontSave = true
+
+	return memrec, name
+end
+
+local _, discovered_dropdown_name =
+	createTransiantDropDownList({ { v = "0", as = "Discovered" }, { v = "1", as = "Not Discovered" } })
+
 local monocoins_base_address_group = AddressList.getMemoryRecordByDescription("Base Address [Monocoins]")
 assert(monocoins_base_address_group)
 
@@ -813,7 +830,10 @@ skill_list_root_group.appendToEntry(monocoins_base_address_group)
 generate_bitmask_list_group("+896E", "Skills Selected", SKILL_COUNT, "list/0:Not Selected,1:Selected").appendToEntry(
 	skill_list_root_group
 )
-generate_bitmask_list_group("+8976", "Skills Unlocked", SKILL_COUNT, "list/1 Unlocked 0 Locked").appendToEntry(
+generate_bitmask_list_group("+8976", "Skills Owned", SKILL_COUNT, "list/0:Not Owned,1:Owned").appendToEntry(
+	skill_list_root_group
+)
+generate_bitmask_list_group("+8966", "Skills Discovered", SKILL_COUNT, discovered_dropdown_name).appendToEntry(
 	skill_list_root_group
 )
 skill_list_root_group.Collapsed = true
