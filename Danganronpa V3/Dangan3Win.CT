@@ -824,7 +824,7 @@ gifts_root_group.Collapsed = true
 -- note: Always set this after 'Gifts Unlocked' is created
 gift_unlock_record_mapping = get_description_record_mapping_of_group("Gifts Unlocked")
 
-local SKILL_COUNT = 47
+local SKILL_COUNT = 48
 local skill_list_root_group = get_or_create_header_group("Skill List")
 skill_list_root_group.appendToEntry(monocoins_base_address_group)
 generate_bitmask_list_group("+896E", "Skills Selected", SKILL_COUNT, "list/0:Not Selected,1:Selected").appendToEntry(
