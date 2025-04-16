@@ -685,9 +685,19 @@ end).appendToEntry(gifts_root_group)
 generate_gift_unlock_on_nonzero_quantity_script(true)
 gifts_root_group.Collapsed = true
 
+-- note: Always set this after 'Gifts Unlocked' is created
 gift_unlock_record_mapping = get_description_record_mapping_of_group("Gifts Unlocked")
 
-local friends_list = {
+local SKILL_COUNT = 47
+local skill_list_root_group = get_or_create_header_group("Skill List")
+skill_list_root_group.appendToEntry(monocoins_base_address_group)
+generate_bitmask_list_group("+896E", "Skills Selected", SKILL_COUNT).appendToEntry(skill_list_root_group)
+generate_bitmask_list_group("+8976", "Skills Unlocked", SKILL_COUNT, "list/1 Unlocked 0 Locked").appendToEntry(
+	skill_list_root_group
+)
+skill_list_root_group.Collapsed = true
+
+local FRIENDS_LIST = {
 	"Shuichi Saihara",
 	"Kaito Momota",
 	"Ryoma Hoshi",
@@ -706,11 +716,11 @@ local friends_list = {
 }
 local friendship_fragments_root_group = get_or_create_header_group("Friendship Fragments")
 friendship_fragments_root_group.appendToEntry(monocoins_base_address_group)
-generate_homogeneous_list_group("+79E", "Friendship Fragments from Kaede POV", #friends_list, "vtWord", 2, function(i)
-	return friends_list[i]
+generate_homogeneous_list_group("+79E", "Friendship Fragments from Kaede POV", #FRIENDS_LIST, "vtWord", 2, function(i)
+	return FRIENDS_LIST[i]
 end).appendToEntry(friendship_fragments_root_group)
-generate_homogeneous_list_group("+7DE", "Friendship Fragments from Shuichi POV", #friends_list, "vtWord", 2, function(i)
-	return friends_list[i]
+generate_homogeneous_list_group("+7DE", "Friendship Fragments from Shuichi POV", #FRIENDS_LIST, "vtWord", 2, function(i)
+	return FRIENDS_LIST[i]
 end).appendToEntry(friendship_fragments_root_group)
 friendship_fragments_root_group.Collapsed = true
 
