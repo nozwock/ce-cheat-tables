@@ -279,7 +279,7 @@ dropFreezeTimer(memrec.ID)
         <CheatEntry>
           <ID>101</ID>
           <Description>"list/0 Unlocked 1 Locked"</Description>
-          <DropDownList ReadOnly="1" DescriptionOnly="1" DisplayValueAsItem="1">0:Unlocked
+          <DropDownList ReadOnly="1" DisplayValueAsItem="1">0:Unlocked
 1:Locked
 </DropDownList>
           <GroupHeader>1</GroupHeader>
@@ -287,8 +287,32 @@ dropFreezeTimer(memrec.ID)
         <CheatEntry>
           <ID>102</ID>
           <Description>"list/1 Unlocked 0 Locked"</Description>
-          <DropDownList ReadOnly="1" DescriptionOnly="1" DisplayValueAsItem="1">1:Unlocked
+          <DropDownList ReadOnly="1" DisplayValueAsItem="1">1:Unlocked
 0:Locked
+</DropDownList>
+          <GroupHeader>1</GroupHeader>
+        </CheatEntry>
+        <CheatEntry>
+          <ID>4065</ID>
+          <Description>"list/0:Not Owned,1:Owned"</Description>
+          <DropDownList ReadOnly="1" DisplayValueAsItem="1">0:Not Owned
+1:Owned
+</DropDownList>
+          <GroupHeader>1</GroupHeader>
+        </CheatEntry>
+        <CheatEntry>
+          <ID>4066</ID>
+          <Description>"list/0:Viewed,1:Not Viewed"</Description>
+          <DropDownList ReadOnly="1" DisplayValueAsItem="1">0:Viewed
+1:Not Viewed
+</DropDownList>
+          <GroupHeader>1</GroupHeader>
+        </CheatEntry>
+        <CheatEntry>
+          <ID>4067</ID>
+          <Description>"list/0:Not Selected,1:Selected"</Description>
+          <DropDownList ReadOnly="1" DisplayValueAsItem="1">0:Not Selected
+1:Selected
 </DropDownList>
           <GroupHeader>1</GroupHeader>
         </CheatEntry>
@@ -786,7 +810,9 @@ gift_unlock_record_mapping = get_description_record_mapping_of_group("Gifts Unlo
 local SKILL_COUNT = 47
 local skill_list_root_group = get_or_create_header_group("Skill List")
 skill_list_root_group.appendToEntry(monocoins_base_address_group)
-generate_bitmask_list_group("+896E", "Skills Selected", SKILL_COUNT).appendToEntry(skill_list_root_group)
+generate_bitmask_list_group("+896E", "Skills Selected", SKILL_COUNT, "list/0:Not Selected,1:Selected").appendToEntry(
+	skill_list_root_group
+)
 generate_bitmask_list_group("+8976", "Skills Unlocked", SKILL_COUNT, "list/1 Unlocked 0 Locked").appendToEntry(
 	skill_list_root_group
 )
@@ -825,7 +851,7 @@ handbook_theme_root_group.appendToEntry(monocoins_base_address_group)
 generate_bitmask_list_group("+776", "Handbook Themes Unlocked", HANDBOOK_THEME_COUNT, "list/1 Unlocked 0 Locked").appendToEntry(
 	handbook_theme_root_group
 )
-generate_bitmask_list_group("+786", "Handbook Themes Viewed", HANDBOOK_THEME_COUNT).appendToEntry(
+generate_bitmask_list_group("+786", "Handbook Themes Viewed", HANDBOOK_THEME_COUNT, "list/0:Viewed,1:Not Viewed").appendToEntry(
 	handbook_theme_root_group
 )
 handbook_theme_root_group.Collapsed = true
@@ -866,36 +892,48 @@ local SOUND_GALLERY_ITEM_COUNT = 73
 local INTIMACY_EVENT_GALLERY_ITEM_COUNT = 126
 local extras_root_group = get_or_create_header_group("Extra Menu")
 extras_root_group.appendToEntry(monocoins_base_address_group)
-generate_bitmask_list_group("-3FE", "Event Gallery Purchased Items", EVENT_GALLERY_ITEM_COUNT).appendToEntry(
-	extras_root_group
-)
+generate_bitmask_list_group(
+	"-3FE",
+	"Event Gallery Purchased Items",
+	EVENT_GALLERY_ITEM_COUNT,
+	"list/0:Not Owned,1:Owned"
+).appendToEntry(extras_root_group)
 generate_bitmask_list_group(
 	"-43E",
 	"Event Gallery Unlocked Items",
 	EVENT_GALLERY_ITEM_COUNT,
 	"list/1 Unlocked 0 Locked"
 ).appendToEntry(extras_root_group)
-generate_bitmask_list_group("-36E", "Movie Gallery Purchased Items", MOVIE_GALLERY_ITEM_COUNT).appendToEntry(
-	extras_root_group
-)
+generate_bitmask_list_group(
+	"-36E",
+	"Movie Gallery Purchased Items",
+	MOVIE_GALLERY_ITEM_COUNT,
+	"list/0:Not Owned,1:Owned"
+).appendToEntry(extras_root_group)
 generate_bitmask_list_group(
 	"-37E",
 	"Movie Gallery Unlocked Items",
 	MOVIE_GALLERY_ITEM_COUNT,
 	"list/1 Unlocked 0 Locked"
 ).appendToEntry(extras_root_group)
-generate_bitmask_list_group("-2CE", "Sound Gallery Purchased Items", SOUND_GALLERY_ITEM_COUNT).appendToEntry(
-	extras_root_group
-)
+generate_bitmask_list_group(
+	"-2CE",
+	"Sound Gallery Purchased Items",
+	SOUND_GALLERY_ITEM_COUNT,
+	"list/0:Not Owned,1:Owned"
+).appendToEntry(extras_root_group)
 generate_bitmask_list_group(
 	"-2EE",
 	"Sound Gallery Unlocked Items",
 	SOUND_GALLERY_ITEM_COUNT,
 	"list/1 Unlocked 0 Locked"
 ).appendToEntry(extras_root_group)
-generate_bitmask_list_group("-26E", "Intimacy Event Gallery Purchased Items", INTIMACY_EVENT_GALLERY_ITEM_COUNT).appendToEntry(
-	extras_root_group
-)
+generate_bitmask_list_group(
+	"-26E",
+	"Intimacy Event Gallery Purchased Items",
+	INTIMACY_EVENT_GALLERY_ITEM_COUNT,
+	"list/0:Not Owned,1:Owned"
+).appendToEntry(extras_root_group)
 generate_bitmask_list_group(
 	"-28E",
 	"Intimacy Event Gallery Unlocked Items",
