@@ -478,6 +478,101 @@ function setMemoryRecordFreezeOptions(memrec, options, reset_previous_callback)
 		memrec.OnActivate = cb
 	end
 end
+
+---@class DropDownListOptions
+---@field DropDownReadOnly? boolean
+---@field DropDownDescriptionOnly? boolean
+---@field DisplayAsDropDownListItem? boolean
+
+---@alias DropDownMappingList { v: string, as: string }[]
+---@param mapping_list DropDownMappingList
+---@param name? string
+---@param options? DropDownListOptions
+---@param parent_description? string
+function createDropDownList(mapping_list, name, options, parent_description)
+	---@param s string
+	---@param unsafe_chars string
+	---@param repl? string
+	---@return string
+	local function quote(s, unsafe_chars, repl)
+		if not repl then
+			repl = "_"
+		end
+
+		return string.gsub(string.gsub(s, "%c+", ""), ".", function(c)
+			for i = 1, #unsafe_chars do
+				if string.sub(unsafe_chars, i, i) == c then
+					return repl
+				end
+			end
+		end)
+	end
+
+	---@param mapping_list DropDownMappingList
+	---@param n integer
+	---@return string
+	local function derive_name_from_n_mapping(mapping_list, n)
+		local name = "list/"
+
+		for i, t in ipairs(mapping_list) do
+			if i > n then
+				name = string.gsub(name, "%.+$", "") .. "..."
+				break
+			end
+
+			local part = string.format("%s:%s", quote(t.v, "/:,"), quote(t.as, "/:,"))
+			if i ~= 1 then
+				part = "," .. part
+			end
+			name = name .. part
+		end
+
+		return name
+	end
+
+	---@param mapping_list DropDownMappingList
+	local function generate_drop_down_string(mapping_list)
+		local final = ""
+		for i, t in ipairs(mapping_list) do
+			local part = string.format("%s:%s", quote(t.v, ":", ""), quote(t.as, ":"))
+			if i ~= 1 then
+				part = "\n" .. part
+			end
+			final = final .. part
+		end
+
+		return final
+	end
+
+	if not name then
+		name = derive_name_from_n_mapping(mapping_list, 4)
+	end
+
+	local memrec = AddressList.getMemoryRecordByDescription(name)
+	if not memrec then
+		memrec = AddressList.createMemoryRecord()
+	end
+
+	memrec.Description = name
+	memrec.IsGroupHeader = true
+	memrec.DropDownList.clear()
+	memrec.DropDownList.addText(generate_drop_down_string(mapping_list))
+
+	if options then
+		for k, v in pairs(options) do
+			memrec[k] = v
+		end
+	end
+
+	if parent_description then
+		local parent_memrec = AddressList.getMemoryRecordByDescription(parent_description)
+		if parent_memrec then
+			memrec.appendToEntry(parent_memrec)
+		end
+	end
+
+	return memrec, name
+end
 ]]></LuaScriptEntry>
     <LuaScriptEntry><![CDATA[local HEADER_DEFAULT_OPTIONS = {
 	"moActivateChildrenAsWell",
