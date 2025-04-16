@@ -809,6 +809,17 @@ for description, options in pairs(record_freeze_options) do
 		setMemoryRecordFreezeOptions(memrec, options, true)
 	end
 end
+
+AddressList.getMemoryRecordByDescription("Countdown To Dawn").OnGetDisplayValue = function(memrec, value)
+	local frames = tonumber(value)
+	if frames then
+		value = tostring(
+			(frames // 30) -- ticks, each tick is 30 frames
+				// 2 -- seconds, ticks gets decremented twice each second due to 60fps
+		) .. (frames == 0 and " second" or " seconds")
+	end
+	return true, value
+end
 ]]></LuaScriptEntry>
   </LuaScript>
 </CheatTable>
