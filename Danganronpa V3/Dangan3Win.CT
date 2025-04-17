@@ -98,27 +98,41 @@
 local record_value_map = {}
 
 do
+	local function gen_custom_check_cb(max_memrec)
+		return function(memrec)
+			local max = tonumber(max_memrec.Value)
+			if max == nil or max <= 0 then
+				return false
+			end
+			return (tonumber(memrec.Value) or 0) < max
+		end
+	end
 	local timer_max_memrec = AddressList.getMemoryRecordByDescription("Timer Max")
 	local timer_memrec = AddressList.getMemoryRecordByDescription("Timer")
 	record_value_map[timer_memrec.ID] = {
 		val = function()
 			return timer_max_memrec.Value
 		end,
-	}
-
-	local influence_max_memrec = AddressList.getMemoryRecordByDescription("Influence Max")
-	local influence_memrec = AddressList.getMemoryRecordByDescription("Influence")
-	record_value_map[influence_memrec.ID] = {
-		val = tostring(math.max(tonumber(influence_max_memrec.Value) or 0, tonumber(influence_memrec.Value) or 0)),
+		custom_check = gen_custom_check_cb(timer_max_memrec),
 	}
 
 	local class_trial_memrec = AddressList.getMemoryRecordByDescription("Class Trial")
+	local influence_max_memrec = AddressList.getMemoryRecordByDescription("Influence Max")
 	local focus_max_memrec = AddressList.getMemoryRecordByDescription("Focus Max")
 	for i = 0, class_trial_memrec.Count - 1 do
 		local child = class_trial_memrec.Child[i]
-		if string.match(child.Description, "^Focus") and child.Description ~= "Focus Max" then
+		if string.match(child.Description, "^Influence") and not string.match(child.Description, "Max") then
+			_max_val = math.max(tonumber(influence_max_memrec.Value) or 0, tonumber(child.Value) or 0)
 			record_value_map[child.ID] = {
-				val = tostring(math.max(tonumber(focus_max_memrec.Value) or 0, tonumber(child.Value) or 0)),
+				val = tostring(_max_val),
+				custom_check = gen_custom_check_cb(influence_max_memrec),
+			}
+		end
+		if string.match(child.Description, "^Focus") and not string.match(child.Description, "Max") then
+			_max_val = math.max(tonumber(focus_max_memrec.Value) or 0, tonumber(child.Value) or 0)
+			record_value_map[child.ID] = {
+				val = tostring(_max_val),
+				custom_check = gen_custom_check_cb(focus_max_memrec),
 			}
 		end
 	end
@@ -135,16 +149,6 @@ dropFreezeTimer(memrec.ID)
 ]]></AssemblerScript>
             </CheatEntry>
             <CheatEntry>
-              <ID>300</ID>
-              <Description>"Timer"</Description>
-              <VariableType>Float</VariableType>
-              <Address>Dangan3Win.exe+00C25570</Address>
-              <Offsets>
-                <Offset>208</Offset>
-                <Offset>10</Offset>
-              </Offsets>
-            </CheatEntry>
-            <CheatEntry>
               <ID>301</ID>
               <Description>"Timer Max"</Description>
               <ShowAsSigned>0</ShowAsSigned>
@@ -156,11 +160,14 @@ dropFreezeTimer(memrec.ID)
               </Offsets>
             </CheatEntry>
             <CheatEntry>
-              <ID>310</ID>
-              <Description>"Influence"</Description>
-              <ShowAsSigned>0</ShowAsSigned>
-              <VariableType>2 Bytes</VariableType>
-              <Address>-220</Address>
+              <ID>300</ID>
+              <Description>"Timer"</Description>
+              <VariableType>Float</VariableType>
+              <Address>Dangan3Win.exe+00C25570</Address>
+              <Offsets>
+                <Offset>208</Offset>
+                <Offset>10</Offset>
+              </Offsets>
             </CheatEntry>
             <CheatEntry>
               <ID>309</ID>
@@ -170,11 +177,21 @@ dropFreezeTimer(memrec.ID)
               <Address>-222</Address>
             </CheatEntry>
             <CheatEntry>
-              <ID>312</ID>
-              <Description>"Focus"</Description>
+              <ID>310</ID>
+              <Description>"Influence"</Description>
               <ShowAsSigned>0</ShowAsSigned>
               <VariableType>2 Bytes</VariableType>
-              <Address>-21C</Address>
+              <Address>-220</Address>
+            </CheatEntry>
+            <CheatEntry>
+              <ID>5809</ID>
+              <Description>"Influence (Argument Armament)"</Description>
+              <ShowAsSigned>0</ShowAsSigned>
+              <VariableType>2 Bytes</VariableType>
+              <Address>"Dangan3Win.exe"+00A23440</Address>
+              <Offsets>
+                <Offset>0</Offset>
+              </Offsets>
             </CheatEntry>
             <CheatEntry>
               <ID>311</ID>
@@ -182,6 +199,13 @@ dropFreezeTimer(memrec.ID)
               <ShowAsSigned>0</ShowAsSigned>
               <VariableType>2 Bytes</VariableType>
               <Address>-21E</Address>
+            </CheatEntry>
+            <CheatEntry>
+              <ID>312</ID>
+              <Description>"Focus"</Description>
+              <ShowAsSigned>0</ShowAsSigned>
+              <VariableType>2 Bytes</VariableType>
+              <Address>-21C</Address>
             </CheatEntry>
             <CheatEntry>
               <ID>302</ID>
