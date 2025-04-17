@@ -762,7 +762,18 @@ dropFreezeTimer(memrec.ID)
     </CheatEntry>
   </CheatEntries>
   <UserdefinedSymbols/>
-  <Comments><![CDATA[Partially derived record addresses from https://fearlessrevolution.com/viewtopic.php?p=222782#p222782]]></Comments>
+  <Comments><![CDATA[Partially derived record addresses from https://fearlessrevolution.com/viewtopic.php?p=222782#p222782
+
+- Skill List (Talent Plan Game Mode)
+    List First Item: "Dangan3Win.exe"+8BE598
+    Skill Item Size: 0x454
+    Skill Item Count: 52
+    Skill Item Contents:
+        Skill Level Current : +0x0, 4 bytes
+        Focus Required Current: +0x8, 4 bytes
+        Skill Name String: +0x10, null terminated utf-16le string, buffer size 0x200
+        Skill Description String: +0x210, null terminated utf-16le string, buffer size 0x200
+]]></Comments>
   <LuaScript>
     <LuaScriptEntry><![CDATA[---@param record_description string
 ---@param value string
