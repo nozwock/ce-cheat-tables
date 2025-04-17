@@ -314,13 +314,16 @@
             <CheatEntry>
               <ID>21</ID>
               <Description>"Calender Month [UI]"</Description>
+              <DropDownListLink>list/Calender Month</DropDownListLink>
               <VariableType>4 Bytes</VariableType>
               <Address>"Dangan3Win.exe"+00D1B260</Address>
               <Offsets>
-                <Offset>2FC</Offset>
-                <Offset>D8</Offset>
+                <Offset>104</Offset>
+                <Offset>10</Offset>
+                <Offset>110</Offset>
+                <Offset>108</Offset>
+                <Offset>CB0</Offset>
               </Offsets>
-              <DropDownListLink>list/Calender Month</DropDownListLink>
             </CheatEntry>
             <CheatEntry>
               <ID>11057</ID>
