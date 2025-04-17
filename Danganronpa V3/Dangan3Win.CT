@@ -1371,6 +1371,7 @@ hidden_monokumas_root_group.Collapsed = true
 
 local EVENT_GALLERY_ITEM_COUNT = 301
 local MOVIE_GALLERY_ITEM_COUNT = 59
+local ARTWORK_GALLERY_ITEM_COUNT = 20
 local SOUND_GALLERY_ITEM_COUNT = 73
 local INTIMACY_EVENT_GALLERY_ITEM_COUNT = 126
 local extras_root_group = get_or_create_header_group("Extra Menu")
@@ -1385,6 +1386,9 @@ generate_bitmask_list_group("-36E", "Movie Gallery Purchased Items", MOVIE_GALLE
 	extras_root_group
 )
 generate_bitmask_list_group("-37E", "Movie Gallery Unlocked Items", MOVIE_GALLERY_ITEM_COUNT, unlocked_dropdown_name).appendToEntry(
+	extras_root_group
+)
+generate_bitmask_list_group("-32E", "Artwork Gallery Purchased Items", ARTWORK_GALLERY_ITEM_COUNT, owned_dropdown_name).appendToEntry(
 	extras_root_group
 )
 generate_bitmask_list_group("-2CE", "Sound Gallery Purchased Items", SOUND_GALLERY_ITEM_COUNT, owned_dropdown_name).appendToEntry(
