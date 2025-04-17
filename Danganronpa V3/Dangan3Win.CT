@@ -755,46 +755,6 @@ dropFreezeTimer(memrec.ID)
 </DropDownList>
           <GroupHeader>1</GroupHeader>
         </CheatEntry>
-        <CheatEntry>
-          <ID>101</ID>
-          <Description>"list/0 Unlocked 1 Locked"</Description>
-          <DropDownList ReadOnly="1" DisplayValueAsItem="1">0:Unlocked
-1:Locked
-</DropDownList>
-          <GroupHeader>1</GroupHeader>
-        </CheatEntry>
-        <CheatEntry>
-          <ID>102</ID>
-          <Description>"list/1 Unlocked 0 Locked"</Description>
-          <DropDownList ReadOnly="1" DisplayValueAsItem="1">1:Unlocked
-0:Locked
-</DropDownList>
-          <GroupHeader>1</GroupHeader>
-        </CheatEntry>
-        <CheatEntry>
-          <ID>4065</ID>
-          <Description>"list/0:Not Owned,1:Owned"</Description>
-          <DropDownList ReadOnly="1" DisplayValueAsItem="1">0:Not Owned
-1:Owned
-</DropDownList>
-          <GroupHeader>1</GroupHeader>
-        </CheatEntry>
-        <CheatEntry>
-          <ID>4066</ID>
-          <Description>"list/0:Viewed,1:Not Viewed"</Description>
-          <DropDownList ReadOnly="1" DisplayValueAsItem="1">0:Viewed
-1:Not Viewed
-</DropDownList>
-          <GroupHeader>1</GroupHeader>
-        </CheatEntry>
-        <CheatEntry>
-          <ID>4067</ID>
-          <Description>"list/0:Not Selected,1:Selected"</Description>
-          <DropDownList ReadOnly="1" DisplayValueAsItem="1">0:Not Selected
-1:Selected
-</DropDownList>
-          <GroupHeader>1</GroupHeader>
-        </CheatEntry>
       </CheatEntries>
     </CheatEntry>
   </CheatEntries>
@@ -992,6 +952,7 @@ end
 ---@param name? string
 ---@param options? DropDownListOptions
 ---@param parent_description? string
+---@return userdata, string
 function createDropDownList(mapping_list, name, options, parent_description)
 	---@param s string
 	---@param unsafe_chars string
@@ -1271,7 +1232,7 @@ end
 ---@param mapping_list DropDownMappingList
 ---@param options? DropDownListOptions
 ---@return userdata, string
-local function createTransiantDropDownList(mapping_list, options)
+local function createTransientDropDownList(mapping_list, options)
 	if not options then
 		options = { DisplayAsDropDownListItem = true, DropDownReadOnly = true }
 	end
@@ -1282,8 +1243,17 @@ local function createTransiantDropDownList(mapping_list, options)
 	return memrec, name
 end
 
-local _, discovered_dropdown_name =
-	createTransiantDropDownList({ { v = "0", as = "Discovered" }, { v = "1", as = "Not Discovered" } })
+local _, unlocked_dropdown_name =
+	createTransientDropDownList({ { v = "0", as = "Locked" }, { v = "1", as = "Unlocked" } })
+local _, locked_dropdown_name =
+	createTransientDropDownList({ { v = "0", as = "Unlocked" }, { v = "1", as = "Locked" } })
+local _, not_discovered_dropdown_name =
+	createTransientDropDownList({ { v = "0", as = "Discovered" }, { v = "1", as = "Not Discovered" } })
+local _, owned_dropdown_name = createTransientDropDownList({ { v = "0", as = "Not Owned" }, { v = "1", as = "Owned" } })
+local _, not_viewed_dropdown_name =
+	createTransientDropDownList({ { v = "0", as = "Viewed" }, { v = "1", as = "Not Viewed" } })
+local _, selected_dropdown_name =
+	createTransientDropDownList({ { v = "0", as = "Not Selected" }, { v = "1", as = "Selected" } })
 
 local monocoins_base_address_group = AddressList.getMemoryRecordByDescription("Base Address [Monocoins]")
 assert(monocoins_base_address_group)
@@ -1294,7 +1264,7 @@ gifts_root_group.appendToEntry(monocoins_base_address_group)
 generate_homogeneous_list_group("+536", "Gifts Quantity", GIFTS_COUNT, "vtWord", 2, function(i)
 	return string.format("NO.%03.0f", i)
 end).appendToEntry(gifts_root_group)
-generate_bitmask_list_group("+736", "Gifts Unlocked", GIFTS_COUNT, "list/0 Unlocked 1 Locked", function(i)
+generate_bitmask_list_group("+736", "Gifts Unlocked", GIFTS_COUNT, locked_dropdown_name, function(i)
 	return string.format("NO.%03.0f", i)
 end).appendToEntry(gifts_root_group)
 generate_gift_unlock_on_nonzero_quantity_script(true)
@@ -1306,13 +1276,13 @@ gift_unlock_record_mapping = get_description_record_mapping_of_group("Gifts Unlo
 local SKILL_COUNT = 48
 local skill_list_root_group = get_or_create_header_group("Skill List")
 skill_list_root_group.appendToEntry(monocoins_base_address_group)
-generate_bitmask_list_group("+896E", "Skills Selected", SKILL_COUNT, "list/0:Not Selected,1:Selected").appendToEntry(
+generate_bitmask_list_group("+896E", "Skills Selected", SKILL_COUNT, selected_dropdown_name).appendToEntry(
 	skill_list_root_group
 )
-generate_bitmask_list_group("+8976", "Skills Owned", SKILL_COUNT, "list/0:Not Owned,1:Owned").appendToEntry(
+generate_bitmask_list_group("+8976", "Skills Owned", SKILL_COUNT, owned_dropdown_name).appendToEntry(
 	skill_list_root_group
 )
-generate_bitmask_list_group("+8966", "Skills Discovered", SKILL_COUNT, discovered_dropdown_name).appendToEntry(
+generate_bitmask_list_group("+8966", "Skills Discovered", SKILL_COUNT, not_discovered_dropdown_name).appendToEntry(
 	skill_list_root_group
 )
 skill_list_root_group.Collapsed = true
@@ -1347,10 +1317,10 @@ friendship_fragments_root_group.Collapsed = true
 local HANDBOOK_THEME_COUNT = 38
 local handbook_theme_root_group = get_or_create_header_group("Handbook Themes")
 handbook_theme_root_group.appendToEntry(monocoins_base_address_group)
-generate_bitmask_list_group("+776", "Handbook Themes Unlocked", HANDBOOK_THEME_COUNT, "list/1 Unlocked 0 Locked").appendToEntry(
+generate_bitmask_list_group("+776", "Handbook Themes Unlocked", HANDBOOK_THEME_COUNT, unlocked_dropdown_name).appendToEntry(
 	handbook_theme_root_group
 )
-generate_bitmask_list_group("+786", "Handbook Themes Viewed", HANDBOOK_THEME_COUNT, "list/0:Viewed,1:Not Viewed").appendToEntry(
+generate_bitmask_list_group("+786", "Handbook Themes Viewed", HANDBOOK_THEME_COUNT, not_viewed_dropdown_name).appendToEntry(
 	handbook_theme_root_group
 )
 handbook_theme_root_group.Collapsed = true
@@ -1363,14 +1333,14 @@ do
 		"+886",
 		"Hidden Monokumas Unlocked [Serialized]",
 		HIDDEN_MONOKUMA_COUNT,
-		"list/1 Unlocked 0 Locked"
+		unlocked_dropdown_name
 	).appendToEntry(hidden_monokumas_root_group)
 
 	local memrec = generate_bitmask_list_group(
 		"Dangan3Win.exe+00C28088",
 		"Hidden Monokumas Unlocked",
 		HIDDEN_MONOKUMA_COUNT,
-		"list/1 Unlocked 0 Locked"
+		unlocked_dropdown_name
 	)
 	memrec.setOffsetCount(1)
 	memrec.setOffset(0, 0x1034)
@@ -1391,53 +1361,35 @@ local SOUND_GALLERY_ITEM_COUNT = 73
 local INTIMACY_EVENT_GALLERY_ITEM_COUNT = 126
 local extras_root_group = get_or_create_header_group("Extra Menu")
 extras_root_group.appendToEntry(monocoins_base_address_group)
-generate_bitmask_list_group(
-	"-3FE",
-	"Event Gallery Purchased Items",
-	EVENT_GALLERY_ITEM_COUNT,
-	"list/0:Not Owned,1:Owned"
-).appendToEntry(extras_root_group)
-generate_bitmask_list_group(
-	"-43E",
-	"Event Gallery Unlocked Items",
-	EVENT_GALLERY_ITEM_COUNT,
-	"list/1 Unlocked 0 Locked"
-).appendToEntry(extras_root_group)
-generate_bitmask_list_group(
-	"-36E",
-	"Movie Gallery Purchased Items",
-	MOVIE_GALLERY_ITEM_COUNT,
-	"list/0:Not Owned,1:Owned"
-).appendToEntry(extras_root_group)
-generate_bitmask_list_group(
-	"-37E",
-	"Movie Gallery Unlocked Items",
-	MOVIE_GALLERY_ITEM_COUNT,
-	"list/1 Unlocked 0 Locked"
-).appendToEntry(extras_root_group)
-generate_bitmask_list_group(
-	"-2CE",
-	"Sound Gallery Purchased Items",
-	SOUND_GALLERY_ITEM_COUNT,
-	"list/0:Not Owned,1:Owned"
-).appendToEntry(extras_root_group)
-generate_bitmask_list_group(
-	"-2EE",
-	"Sound Gallery Unlocked Items",
-	SOUND_GALLERY_ITEM_COUNT,
-	"list/1 Unlocked 0 Locked"
-).appendToEntry(extras_root_group)
+generate_bitmask_list_group("-3FE", "Event Gallery Purchased Items", EVENT_GALLERY_ITEM_COUNT, owned_dropdown_name).appendToEntry(
+	extras_root_group
+)
+generate_bitmask_list_group("-43E", "Event Gallery Unlocked Items", EVENT_GALLERY_ITEM_COUNT, unlocked_dropdown_name).appendToEntry(
+	extras_root_group
+)
+generate_bitmask_list_group("-36E", "Movie Gallery Purchased Items", MOVIE_GALLERY_ITEM_COUNT, owned_dropdown_name).appendToEntry(
+	extras_root_group
+)
+generate_bitmask_list_group("-37E", "Movie Gallery Unlocked Items", MOVIE_GALLERY_ITEM_COUNT, unlocked_dropdown_name).appendToEntry(
+	extras_root_group
+)
+generate_bitmask_list_group("-2CE", "Sound Gallery Purchased Items", SOUND_GALLERY_ITEM_COUNT, owned_dropdown_name).appendToEntry(
+	extras_root_group
+)
+generate_bitmask_list_group("-2EE", "Sound Gallery Unlocked Items", SOUND_GALLERY_ITEM_COUNT, unlocked_dropdown_name).appendToEntry(
+	extras_root_group
+)
 generate_bitmask_list_group(
 	"-26E",
 	"Intimacy Event Gallery Purchased Items",
 	INTIMACY_EVENT_GALLERY_ITEM_COUNT,
-	"list/0:Not Owned,1:Owned"
+	owned_dropdown_name
 ).appendToEntry(extras_root_group)
 generate_bitmask_list_group(
 	"-28E",
 	"Intimacy Event Gallery Unlocked Items",
 	INTIMACY_EVENT_GALLERY_ITEM_COUNT,
-	"list/1 Unlocked 0 Locked"
+	unlocked_dropdown_name
 ).appendToEntry(extras_root_group)
 extras_root_group.Collapsed = true
 ]]></LuaScriptEntry>
