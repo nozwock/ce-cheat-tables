@@ -301,17 +301,6 @@
           <GroupHeader>1</GroupHeader>
           <CheatEntries>
             <CheatEntry>
-              <ID>11057</ID>
-              <Description>"Calender Year"</Description>
-              <ShowAsSigned>0</ShowAsSigned>
-              <VariableType>4 Bytes</VariableType>
-              <Address>"Dangan3Win.exe"+00C28060</Address>
-              <Offsets>
-                <Offset>34</Offset>
-                <Offset>8</Offset>
-              </Offsets>
-            </CheatEntry>
-            <CheatEntry>
               <ID>22</ID>
               <Description>"Calender Month"</Description>
               <VariableType>4 Bytes</VariableType>
@@ -320,6 +309,7 @@
                 <Offset>38</Offset>
                 <Offset>8</Offset>
               </Offsets>
+              <DropDownListLink>list/Calender Month</DropDownListLink>
             </CheatEntry>
             <CheatEntry>
               <ID>21</ID>
@@ -330,6 +320,19 @@
                 <Offset>2FC</Offset>
                 <Offset>D8</Offset>
               </Offsets>
+              <DropDownListLink>list/Calender Month</DropDownListLink>
+            </CheatEntry>
+            <CheatEntry>
+              <ID>11057</ID>
+              <Description>"Calender Year"</Description>
+              <ShowAsSigned>0</ShowAsSigned>
+              <VariableType>4 Bytes</VariableType>
+              <Address>"Dangan3Win.exe"+00C28060</Address>
+              <Offsets>
+                <Offset>34</Offset>
+                <Offset>8</Offset>
+              </Offsets>
+              <DropDownListLink>list/Calender Year</DropDownListLink>
             </CheatEntry>
             <CheatEntry>
               <ID>11056</ID>
@@ -341,6 +344,7 @@
                 <Offset>2F8</Offset>
                 <Offset>D8</Offset>
               </Offsets>
+              <DropDownListLink>list/Calender Year</DropDownListLink>
             </CheatEntry>
           </CheatEntries>
         </CheatEntry>
@@ -724,6 +728,33 @@ dropFreezeTimer(memrec.ID)
       <Options moAlwaysHideChildren="1" moManualExpandCollapse="1" moDeactivateChildrenAsWell="1" moAllowManualCollapseAndExpand="1"/>
       <GroupHeader>1</GroupHeader>
       <CheatEntries>
+        <CheatEntry>
+          <ID>14544</ID>
+          <Description>"list/Calender Month"</Description>
+          <DropDownList ReadOnly="1" DisplayValueAsItem="1">0:April
+1:May
+2:June
+3:July
+4:August
+5:September
+6:October
+7:November
+8:December
+9:January
+10:February
+11:March
+</DropDownList>
+          <GroupHeader>1</GroupHeader>
+        </CheatEntry>
+        <CheatEntry>
+          <ID>14545</ID>
+          <Description>"list/Calender Year"</Description>
+          <DropDownList ReadOnly="1" DisplayValueAsItem="1">0:1st Year
+1:2nd Year
+2:3rd Year
+</DropDownList>
+          <GroupHeader>1</GroupHeader>
+        </CheatEntry>
         <CheatEntry>
           <ID>101</ID>
           <Description>"list/0 Unlocked 1 Locked"</Description>
