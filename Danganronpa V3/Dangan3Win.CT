@@ -2,6 +2,430 @@
 <CheatTable CheatEngineTableVersion="45">
   <CheatEntries>
     <CheatEntry>
+      <ID>1174</ID>
+      <Description>"Talent Plan Game Mode"</Description>
+      <Options moAlwaysHideChildren="1" moManualExpandCollapse="1" moDeactivateChildrenAsWell="1" moAllowManualCollapseAndExpand="1"/>
+      <GroupHeader>1</GroupHeader>
+      <CheatEntries>
+        <CheatEntry>
+          <ID>1234</ID>
+          <Description>"Level"</Description>
+          <ShowAsSigned>0</ShowAsSigned>
+          <VariableType>4 Bytes</VariableType>
+          <Address>"Dangan3Win.exe"+00C28060</Address>
+          <Offsets>
+            <Offset>1B74</Offset>
+            <Offset>90</Offset>
+            <Offset>8</Offset>
+          </Offsets>
+        </CheatEntry>
+        <CheatEntry>
+          <ID>1230</ID>
+          <Description>"Influence Current"</Description>
+          <ShowAsSigned>0</ShowAsSigned>
+          <VariableType>4 Bytes</VariableType>
+          <Address>"Dangan3Win.exe"+00C28060</Address>
+          <Offsets>
+            <Offset>1B10</Offset>
+            <Offset>90</Offset>
+            <Offset>8</Offset>
+          </Offsets>
+        </CheatEntry>
+        <CheatEntry>
+          <ID>1231</ID>
+          <Description>"Focus Current"</Description>
+          <ShowAsSigned>0</ShowAsSigned>
+          <VariableType>4 Bytes</VariableType>
+          <Address>"Dangan3Win.exe"+00C28060</Address>
+          <Offsets>
+            <Offset>1B1C</Offset>
+            <Offset>90</Offset>
+            <Offset>8</Offset>
+          </Offsets>
+        </CheatEntry>
+        <CheatEntry>
+          <ID>12800</ID>
+          <Description>"Base Stats"</Description>
+          <Options moAlwaysHideChildren="1" moManualExpandCollapse="1" moDeactivateChildrenAsWell="1" moAllowManualCollapseAndExpand="1"/>
+          <GroupHeader>1</GroupHeader>
+          <CheatEntries>
+            <CheatEntry>
+              <ID>1228</ID>
+              <Description>"Influence Base"</Description>
+              <VariableType>4 Bytes</VariableType>
+              <Address>"Dangan3Win.exe"+00C28060</Address>
+              <Offsets>
+                <Offset>1B14</Offset>
+                <Offset>90</Offset>
+                <Offset>8</Offset>
+              </Offsets>
+            </CheatEntry>
+            <CheatEntry>
+              <ID>1232</ID>
+              <Description>"Focus Base"</Description>
+              <ShowAsSigned>0</ShowAsSigned>
+              <VariableType>4 Bytes</VariableType>
+              <Address>"Dangan3Win.exe"+00C28060</Address>
+              <Offsets>
+                <Offset>1B20</Offset>
+                <Offset>90</Offset>
+                <Offset>8</Offset>
+              </Offsets>
+            </CheatEntry>
+            <CheatEntry>
+              <ID>1235</ID>
+              <Description>"Strength Base"</Description>
+              <ShowAsSigned>0</ShowAsSigned>
+              <VariableType>Float</VariableType>
+              <Address>"Dangan3Win.exe"+00C28060</Address>
+              <Offsets>
+                <Offset>1B28</Offset>
+                <Offset>90</Offset>
+                <Offset>8</Offset>
+              </Offsets>
+            </CheatEntry>
+            <CheatEntry>
+              <ID>1237</ID>
+              <Description>"Defence Base"</Description>
+              <ShowAsSigned>0</ShowAsSigned>
+              <VariableType>Float</VariableType>
+              <Address>"Dangan3Win.exe"+00C28060</Address>
+              <Offsets>
+                <Offset>1B30</Offset>
+                <Offset>90</Offset>
+                <Offset>8</Offset>
+              </Offsets>
+            </CheatEntry>
+            <CheatEntry>
+              <ID>1239</ID>
+              <Description>"Intellect Base"</Description>
+              <ShowAsSigned>0</ShowAsSigned>
+              <VariableType>Float</VariableType>
+              <Address>"Dangan3Win.exe"+00C28060</Address>
+              <Offsets>
+                <Offset>1B38</Offset>
+                <Offset>90</Offset>
+                <Offset>8</Offset>
+              </Offsets>
+            </CheatEntry>
+            <CheatEntry>
+              <ID>1241</ID>
+              <Description>"Fortitude Base"</Description>
+              <ShowAsSigned>0</ShowAsSigned>
+              <VariableType>Float</VariableType>
+              <Address>"Dangan3Win.exe"+00C28060</Address>
+              <Offsets>
+                <Offset>1B40</Offset>
+                <Offset>90</Offset>
+                <Offset>8</Offset>
+              </Offsets>
+            </CheatEntry>
+            <CheatEntry>
+              <ID>1243</ID>
+              <Description>"Agility Base"</Description>
+              <ShowAsSigned>0</ShowAsSigned>
+              <VariableType>Float</VariableType>
+              <Address>"Dangan3Win.exe"+00C28060</Address>
+              <Offsets>
+                <Offset>1B48</Offset>
+                <Offset>90</Offset>
+                <Offset>8</Offset>
+              </Offsets>
+            </CheatEntry>
+            <CheatEntry>
+              <ID>1245</ID>
+              <Description>"Luck Base"</Description>
+              <ShowAsSigned>0</ShowAsSigned>
+              <VariableType>Float</VariableType>
+              <Address>"Dangan3Win.exe"+00C28060</Address>
+              <Offsets>
+                <Offset>1B50</Offset>
+                <Offset>90</Offset>
+                <Offset>8</Offset>
+              </Offsets>
+            </CheatEntry>
+          </CheatEntries>
+        </CheatEntry>
+        <CheatEntry>
+          <ID>12799</ID>
+          <Description>"Bonus Stats"</Description>
+          <Options moAlwaysHideChildren="1" moManualExpandCollapse="1" moDeactivateChildrenAsWell="1" moAllowManualCollapseAndExpand="1"/>
+          <GroupHeader>1</GroupHeader>
+          <CheatEntries>
+            <CheatEntry>
+              <ID>1229</ID>
+              <Description>"Influence Bonus"</Description>
+              <ShowAsSigned>0</ShowAsSigned>
+              <VariableType>4 Bytes</VariableType>
+              <Address>"Dangan3Win.exe"+00C28060</Address>
+              <Offsets>
+                <Offset>1B18</Offset>
+                <Offset>90</Offset>
+                <Offset>8</Offset>
+              </Offsets>
+            </CheatEntry>
+            <CheatEntry>
+              <ID>1233</ID>
+              <Description>"Focus Bonus"</Description>
+              <ShowAsSigned>0</ShowAsSigned>
+              <VariableType>4 Bytes</VariableType>
+              <Address>"Dangan3Win.exe"+00C28060</Address>
+              <Offsets>
+                <Offset>1B24</Offset>
+                <Offset>90</Offset>
+                <Offset>8</Offset>
+              </Offsets>
+            </CheatEntry>
+            <CheatEntry>
+              <ID>1236</ID>
+              <Description>"Strength Bonus"</Description>
+              <ShowAsSigned>0</ShowAsSigned>
+              <VariableType>Float</VariableType>
+              <Address>"Dangan3Win.exe"+00C28060</Address>
+              <Offsets>
+                <Offset>1B2C</Offset>
+                <Offset>90</Offset>
+                <Offset>8</Offset>
+              </Offsets>
+            </CheatEntry>
+            <CheatEntry>
+              <ID>1238</ID>
+              <Description>"Defence Bonus"</Description>
+              <ShowAsSigned>0</ShowAsSigned>
+              <VariableType>Float</VariableType>
+              <Address>"Dangan3Win.exe"+00C28060</Address>
+              <Offsets>
+                <Offset>1B34</Offset>
+                <Offset>90</Offset>
+                <Offset>8</Offset>
+              </Offsets>
+            </CheatEntry>
+            <CheatEntry>
+              <ID>1240</ID>
+              <Description>"Intellect Bonus"</Description>
+              <ShowAsSigned>0</ShowAsSigned>
+              <VariableType>Float</VariableType>
+              <Address>"Dangan3Win.exe"+00C28060</Address>
+              <Offsets>
+                <Offset>1B3C</Offset>
+                <Offset>90</Offset>
+                <Offset>8</Offset>
+              </Offsets>
+            </CheatEntry>
+            <CheatEntry>
+              <ID>1246</ID>
+              <Description>"Agility Bonus"</Description>
+              <ShowAsSigned>0</ShowAsSigned>
+              <VariableType>Float</VariableType>
+              <Address>"Dangan3Win.exe"+00C28060</Address>
+              <Offsets>
+                <Offset>1B4C</Offset>
+                <Offset>90</Offset>
+                <Offset>8</Offset>
+              </Offsets>
+            </CheatEntry>
+            <CheatEntry>
+              <ID>1242</ID>
+              <Description>"Fortitude Bonus"</Description>
+              <ShowAsSigned>0</ShowAsSigned>
+              <VariableType>Float</VariableType>
+              <Address>"Dangan3Win.exe"+00C28060</Address>
+              <Offsets>
+                <Offset>1B44</Offset>
+                <Offset>90</Offset>
+                <Offset>8</Offset>
+              </Offsets>
+            </CheatEntry>
+            <CheatEntry>
+              <ID>1244</ID>
+              <Description>"Luck Bonus"</Description>
+              <ShowAsSigned>0</ShowAsSigned>
+              <VariableType>Float</VariableType>
+              <Address>"Dangan3Win.exe"+00C28060</Address>
+              <Offsets>
+                <Offset>1B54</Offset>
+                <Offset>90</Offset>
+                <Offset>8</Offset>
+              </Offsets>
+            </CheatEntry>
+          </CheatEntries>
+        </CheatEntry>
+        <CheatEntry>
+          <ID>12802</ID>
+          <Description>"Fragments"</Description>
+          <Options moAlwaysHideChildren="1" moManualExpandCollapse="1" moDeactivateChildrenAsWell="1" moAllowManualCollapseAndExpand="1"/>
+          <GroupHeader>1</GroupHeader>
+          <CheatEntries>
+            <CheatEntry>
+              <ID>1247</ID>
+              <Description>"Red Fragments"</Description>
+              <ShowAsSigned>0</ShowAsSigned>
+              <VariableType>4 Bytes</VariableType>
+              <Address>"Dangan3Win.exe"+00C28060</Address>
+              <Offsets>
+                <Offset>1bdC</Offset>
+                <Offset>90</Offset>
+                <Offset>8</Offset>
+              </Offsets>
+            </CheatEntry>
+            <CheatEntry>
+              <ID>1248</ID>
+              <Description>"Blue Fragments"</Description>
+              <ShowAsSigned>0</ShowAsSigned>
+              <VariableType>4 Bytes</VariableType>
+              <Address>"Dangan3Win.exe"+00C28060</Address>
+              <Offsets>
+                <Offset>1BE4</Offset>
+                <Offset>90</Offset>
+                <Offset>8</Offset>
+              </Offsets>
+            </CheatEntry>
+            <CheatEntry>
+              <ID>1249</ID>
+              <Description>"Green Fragments"</Description>
+              <ShowAsSigned>0</ShowAsSigned>
+              <VariableType>4 Bytes</VariableType>
+              <Address>"Dangan3Win.exe"+00C28060</Address>
+              <Offsets>
+                <Offset>1BEC</Offset>
+                <Offset>90</Offset>
+                <Offset>8</Offset>
+              </Offsets>
+            </CheatEntry>
+          </CheatEntries>
+        </CheatEntry>
+        <CheatEntry>
+          <ID>12801</ID>
+          <Description>"Calender"</Description>
+          <Options moAlwaysHideChildren="1" moManualExpandCollapse="1" moDeactivateChildrenAsWell="1" moAllowManualCollapseAndExpand="1"/>
+          <GroupHeader>1</GroupHeader>
+          <CheatEntries>
+            <CheatEntry>
+              <ID>11057</ID>
+              <Description>"Calender Year"</Description>
+              <ShowAsSigned>0</ShowAsSigned>
+              <VariableType>4 Bytes</VariableType>
+              <Address>"Dangan3Win.exe"+00C28060</Address>
+              <Offsets>
+                <Offset>34</Offset>
+                <Offset>8</Offset>
+              </Offsets>
+            </CheatEntry>
+            <CheatEntry>
+              <ID>22</ID>
+              <Description>"Calender Month"</Description>
+              <VariableType>4 Bytes</VariableType>
+              <Address>"Dangan3Win.exe"+00C28060</Address>
+              <Offsets>
+                <Offset>38</Offset>
+                <Offset>8</Offset>
+              </Offsets>
+            </CheatEntry>
+            <CheatEntry>
+              <ID>21</ID>
+              <Description>"Calender Month [UI]"</Description>
+              <VariableType>4 Bytes</VariableType>
+              <Address>"Dangan3Win.exe"+00D1B260</Address>
+              <Offsets>
+                <Offset>2FC</Offset>
+                <Offset>D8</Offset>
+              </Offsets>
+            </CheatEntry>
+            <CheatEntry>
+              <ID>11056</ID>
+              <Description>"Calender Year [UI]"</Description>
+              <ShowAsSigned>0</ShowAsSigned>
+              <VariableType>4 Bytes</VariableType>
+              <Address>"Dangan3Win.exe"+00D1B260</Address>
+              <Offsets>
+                <Offset>2F8</Offset>
+                <Offset>D8</Offset>
+              </Offsets>
+            </CheatEntry>
+          </CheatEntries>
+        </CheatEntry>
+        <CheatEntry>
+          <ID>1255</ID>
+          <Description>"Enemy Encounter"</Description>
+          <Options moAlwaysHideChildren="1" moManualExpandCollapse="1" moDeactivateChildrenAsWell="1" moAllowManualCollapseAndExpand="1"/>
+          <GroupHeader>1</GroupHeader>
+          <CheatEntries>
+            <CheatEntry>
+              <ID>1254</ID>
+              <Description>"Influence"</Description>
+              <ShowAsSigned>0</ShowAsSigned>
+              <VariableType>4 Bytes</VariableType>
+              <Address>"Dangan3Win.exe"+00A1E128</Address>
+              <Offsets>
+                <Offset>808</Offset>
+                <Offset>8</Offset>
+                <Offset>8</Offset>
+              </Offsets>
+            </CheatEntry>
+            <CheatEntry>
+              <ID>1258</ID>
+              <Description>"Influence Base"</Description>
+              <ShowAsSigned>0</ShowAsSigned>
+              <VariableType>4 Bytes</VariableType>
+              <Address>"Dangan3Win.exe"+00A1E128</Address>
+              <Offsets>
+                <Offset>80C</Offset>
+                <Offset>8</Offset>
+                <Offset>8</Offset>
+              </Offsets>
+            </CheatEntry>
+            <CheatEntry>
+              <ID>1257</ID>
+              <Description>"Influence Bonus"</Description>
+              <ShowAsSigned>0</ShowAsSigned>
+              <VariableType>4 Bytes</VariableType>
+              <Address>"Dangan3Win.exe"+00A1E128</Address>
+              <Offsets>
+                <Offset>810</Offset>
+                <Offset>8</Offset>
+                <Offset>8</Offset>
+              </Offsets>
+            </CheatEntry>
+            <CheatEntry>
+              <ID>1256</ID>
+              <Description>"Focus"</Description>
+              <VariableType>4 Bytes</VariableType>
+              <Address>"Dangan3Win.exe"+00A1E128</Address>
+              <Offsets>
+                <Offset>814</Offset>
+                <Offset>8</Offset>
+                <Offset>8</Offset>
+              </Offsets>
+            </CheatEntry>
+            <CheatEntry>
+              <ID>1259</ID>
+              <Description>"Focus Base"</Description>
+              <ShowAsSigned>0</ShowAsSigned>
+              <VariableType>4 Bytes</VariableType>
+              <Address>"Dangan3Win.exe"+00A1E128</Address>
+              <Offsets>
+                <Offset>818</Offset>
+                <Offset>8</Offset>
+                <Offset>8</Offset>
+              </Offsets>
+            </CheatEntry>
+            <CheatEntry>
+              <ID>1260</ID>
+              <Description>"Focus Bonus"</Description>
+              <ShowAsSigned>0</ShowAsSigned>
+              <VariableType>4 Bytes</VariableType>
+              <Address>"Dangan3Win.exe"+00A1E128</Address>
+              <Offsets>
+                <Offset>81C</Offset>
+                <Offset>8</Offset>
+                <Offset>8</Offset>
+              </Offsets>
+            </CheatEntry>
+          </CheatEntries>
+        </CheatEntry>
+      </CheatEntries>
+    </CheatEntry>
+    <CheatEntry>
       <ID>780</ID>
       <Description>"Base Address [Monocoins]"</Description>
       <Options moManualExpandCollapse="1" moDeactivateChildrenAsWell="1" moAllowManualCollapseAndExpand="1"/>
