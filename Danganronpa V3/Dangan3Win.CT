@@ -792,7 +792,7 @@ dropFreezeTimer(memrec.ID)
   </CheatEntries>
   <UserdefinedSymbols/>
   <Comments><![CDATA[Partially derived record addresses from https://fearlessrevolution.com/viewtopic.php?p=222782#p222782
-
+    
 - Skill List (Talent Plan Game Mode)
     List First Item: "Dangan3Win.exe"+8BE598
     Skill Item Size: 0x454
@@ -802,6 +802,33 @@ dropFreezeTimer(memrec.ID)
         Focus Required Current: +0x8, 4 bytes
         Skill Name String: +0x10, null terminated utf-16le string, buffer size 0x200
         Skill Description String: +0x210, null terminated utf-16le string, buffer size 0x200
+    
+- Finding Affection Points/Level Address (Pink Hearts)
+    Start by searching for pink hearts a character has, so search for 3 if let's say we have 3 pink hearts in the affection
+    level window for some character. Try to get affection level to the next level for the character, then search for 4 once
+    it's 4 pink hearts, repeat until we have narrowed down the address. That address happened to be the value that is part
+    of the UI's state, and it's just there to decide how many pink hearts to show in that character's lane.
+    
+    Also ended up finding an utf-16 string near this value that may be used for easily finding this address again in the
+    future, "My affection level".
+    
+    Now, try looking for what instructions write to this UI's state, which turns out to be:
+    Dangan3Win.exe+365806 - 89 56 3C              - mov [rsi+3C],edx
+    
+    Look around it to see where is the actual affection points that this number of pink hearts value is being derived from
+    and found something in this call above the mov instruction:
+    Dangan3Win.exe+3657F1 - E8 AA471D00           - call Dangan3Win.exe+539FA0
+    
+    That is, an instruction that is retrieving a value from some struct:
+    Dangan3Win.exe+539FC5 - 8B 84 88 7C2E0000     - mov eax,[rax+rcx*4+00002E7C]
+    
+    Hit on "Found out what addresses this instruction accesses" and there we go, found our list of affection points (pink hearts)
+    for all the characters, seems to go from 0 to 100.
+
+    Based on the last instruction, the address for the start of the list would be a pointer record with the address of
+    Dangan3Win.exe+D20080 and with the offset 0x2E7C, but this starts of with affection points for the Shuichi, which if
+    we don't want, can just increase the offset by +0x4, that is 0x2E80 and the size of the list becomes 15 with each item
+    being of 4 bytes.
 ]]></Comments>
   <LuaScript>
     <LuaScriptEntry><![CDATA[---@param record_description string
@@ -1121,6 +1148,7 @@ end
 ---@param vartype VarType
 ---@param vartype_size integer
 ---@param get_item_caption? fun(i: integer): string
+---@param iter_item? fun(child_memrec: userdata)
 ---@return userdata
 local function generate_homogeneous_list_group(
 	base_address,
@@ -1128,7 +1156,8 @@ local function generate_homogeneous_list_group(
 	item_count,
 	vartype,
 	vartype_size,
-	get_item_caption
+	get_item_caption,
+	iter_item
 )
 	local _memrec = AddressList.getMemoryRecordByDescription(group_caption)
 	if _memrec ~= nil then
@@ -1144,16 +1173,19 @@ local function generate_homogeneous_list_group(
 
 	for i = 0, item_count - 1 do
 		local offset = i * vartype_size
-		local gift_memrec = AddressList.createMemoryRecord()
-		gift_memrec.DontSave = true
+		local child_memrec = AddressList.createMemoryRecord()
+		child_memrec.DontSave = true
 		if get_item_caption then
-			gift_memrec.Description = get_item_caption(i + 1)
+			child_memrec.Description = get_item_caption(i + 1)
 		else
-			gift_memrec.Description = string.format("%02.0f", i + 1)
+			child_memrec.Description = string.format("%02.0f", i + 1)
 		end
-		gift_memrec.VarType = vartype
-		gift_memrec.Address = "+" .. string.format("%X", offset)
-		gift_memrec.appendToEntry(group_memrec)
+		child_memrec.VarType = vartype
+		child_memrec.Address = "+" .. string.format("%X", offset)
+		child_memrec.appendToEntry(group_memrec)
+		if iter_item then
+			iter_item(child_memrec)
+		end
 	end
 
 	group_memrec.Collapsed = true
@@ -1440,6 +1472,37 @@ generate_bitmask_list_group(
 	unlocked_dropdown_name
 ).appendToEntry(extras_root_group)
 extras_root_group.Collapsed = true
+
+local salmon_team_mode_root_group = AddressList.getMemoryRecordByDescription("Salmon Team Game Mode")
+local affection_points_group = generate_homogeneous_list_group(
+	"Dangan3Win.exe+D20080",
+	"Affection Points (Pink Hearts)",
+	#FRIENDS_LIST,
+	"vtDword",
+	4,
+	function(i)
+		return FRIENDS_LIST[i]
+	end,
+	function(child_memrec)
+		child_memrec.OnGetDisplayValue = function(memrec, value)
+			local points = tonumber(value)
+			if points then
+				local heart_count = math.min(points // 20, 5)
+				value = string.format(
+					"%.0f: %.0f %s",
+					points,
+					heart_count,
+					heart_count <= 1 and "Pink Heart" or "Pink Hearts"
+				)
+			end
+			return true, value
+		end
+	end
+)
+affection_points_group.setOffsetCount(1)
+affection_points_group.setOffset(0, 0x2E7C)
+affection_points_group.appendToEntry(salmon_team_mode_root_group)
+affection_points_group.Collapsed = true
 ]]></LuaScriptEntry>
     <LuaScriptEntry><![CDATA[local record_freeze_options = {
 	["Countdown To Dawn"] = { AllowIncrease = true },
