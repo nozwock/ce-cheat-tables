@@ -800,7 +800,9 @@ dropFreezeTimer(memrec.ID)
     </CheatEntry>
   </CheatEntries>
   <UserdefinedSymbols/>
-  <Comments><![CDATA[Partially derived record addresses from https://fearlessrevolution.com/viewtopic.php?p=222782#p222782
+  <Comments><![CDATA[Danganronpa V3: Killing Harmony v1.0.2.0, Steam build 2186010
+    
+Partially derived record addresses from https://fearlessrevolution.com/viewtopic.php?p=222782#p222782
     
 - Skill List (Talent Plan Game Mode)
     List First Item: "Dangan3Win.exe"+8BE598
@@ -1444,7 +1446,7 @@ do
 	memrec.appendToEntry(hidden_monokumas_root_group)
 
 	local info_memrec = get_or_create_header_group(
-		"Only the serialized one persists in saves; other reset to its state on load, but it only takes effect after a save load."
+		"Only the serialized one persists in saves, but it's only read from and wrote to at a game load/save."
 	)
 	info_memrec.Options = ""
 	info_memrec.Color = 0xCC0000
