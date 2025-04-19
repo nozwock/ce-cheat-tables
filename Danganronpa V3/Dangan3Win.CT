@@ -1317,6 +1317,7 @@ local FRIENDS_LIST = {
 	"Tsumugi Shirogane",
 	"Angie Yonaga",
 	"Miu Iruma",
+	"Kaede Akamatsu",
 }
 local friendship_fragments_root_group = get_or_create_header_group("Friendship Fragments")
 friendship_fragments_root_group.appendToEntry(monocoins_base_address_group)
