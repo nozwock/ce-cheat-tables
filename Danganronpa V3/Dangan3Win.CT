@@ -448,6 +448,12 @@
             <Offset>203A</Offset>
           </Offsets>
         </CheatEntry>
+        <CheatEntry>
+          <ID>1165</ID>
+          <Description>"Blue Hearts are just Friendship Fragments from Shuichi's POV"</Description>
+          <Color>CC0000</Color>
+          <GroupHeader>1</GroupHeader>
+        </CheatEntry>
       </CheatEntries>
     </CheatEntry>
     <CheatEntry>
